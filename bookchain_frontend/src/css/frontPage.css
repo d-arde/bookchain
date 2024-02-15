@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+3");
+.font {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.font_bolder {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: bolder;
+}
+
+.searchSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.searchBar {
+  padding: 10px;
+  width: 90%;
+  margin-left: 2em;
+}
+
+.aboutImage {
+  width: 25%;
+  display: block;
+  border-radius: 8px;
+  text-align: right;
+  padding-left: 10em;
+}
+
+.aboutSectionWrapper {
+  margin-left: 4em;
+  margin-bottom: 4em;
+  width: 66%;
+  display: flex;
+}
+
+.aboutSectionP {
+  padding: 20px;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-left: 2.4em;
+  color: ghostwhite;
+  text-align: left;
+}
+.aboutSection {
+  padding: 20px;
+  padding-bottom: 0em;
+  margin-left: 1em;
+  margin-bottom: 0px;
+  color: ghostwhite;
+  font-size: 40px;
+  line-height: 1.28;
+  letter-spacing: -0.5px;
+}
+
+.whySectionHeader {
+  padding: 20px;
+  padding-bottom: 0em;
+  margin-left: 1em;
+  margin-bottom: 0px;
+  color: ghostwhite;
+  font-family: "Source Sans 3";
+  font-weight: bolder;
+  font-size: 40px;
+  line-height: 1.28;
+  letter-spacing: -0.5px;
+}
+
+.whySectionWrapper {
+  margin-left: 4em;
+  width: 66%;
+  display: flex;
+}
+
+.whySection {
+  padding: 20px;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-left: 2.2em;
+  color: ghostwhite;
+  font-family: "Source Sans 3";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.44;
+  text-align: left;
+}
+
+.whyImage {
+  /* width: 25%; */
+  display: flex;
+  text-align: right;
+  padding-left: 3.5em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  width: 20em;
+  height: 20em;
+}
+.faqSectionWrapper {
+  margin-left: 4em;
+  align-items: center;
+  text-align: center;
+}
+
+.faqTitle {
+  width: 90%;
+  color: ghostwhite;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.28;
+  text-align: center;
+  align-self: center;
+}
+
+.faqSection {
+  width: 90%;
+  color: ghostwhite;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.44;
+}
+
+.footerSection {
+  width: 90%;
+  color: grey;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.44;
+}
+
+.footerWrapper {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  text-align: center;
+  align-self: center;
+}

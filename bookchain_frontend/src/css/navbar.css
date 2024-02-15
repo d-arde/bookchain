@@ -1,0 +1,47 @@
+.font {
+  font-family: "Source Sans 3", sans-serif;
+  color: ghostwhite;
+}
+
+.font_bolder {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: bolder;
+  font-size: x-large;
+  color: ghostwhite;
+}
+.navbar {
+  justify-content: space-between;
+  display: flex;
+  padding: 20px;
+}
+
+.connectWalletButton {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.navLinks {
+  text-align: right;
+  align-items: center;
+  padding-top: 1.4em;
+}
+
+.navLink {
+  margin-left: 30px;
+  margin-right: 30px;
+  color: ghostwhite;
+  text-decoration: none;
+  align-items: center;
+}
+
+.title {
+  text-align: left;
+  /* align-items:; */
+  width: 15%;
+  display: flex;
+  padding-bottom: 2em;
+}
+
+.logo {
+  width: 60%;
+}
