@@ -1,0 +1,30 @@
+{
+  "attributes": [
+    {
+      "trait_type": "Author",
+      "value": "John A Wick"
+    },
+    {
+      "trait_type": "Year",
+      "value": "2011"
+    },
+    {
+      "trait_type": "Subject",
+      "value": "Engineering"
+    },
+    {
+      "trait_type": "Code",
+      "value": "AV751D"
+    }
+  ],
+  "description": "A textbook minted through Bookchain!",
+  "name": "Electromagnetics",
+  "properties": {
+    "files": [
+      {
+        "type": "application/pdf",
+        "url": "https://nftstorage.link/ipfs/bafybeibctzkfnesjzu4xnacirjjhdokqaf75f5czjym34obq26quajltay"
+      }
+    ]
+  }
+}

@@ -3,6 +3,7 @@
 import { useWallet } from "solana-wallets-vue";
 import { mintToken } from "../scripts/mintToken.js";
 // const { program } = useWorkspace();
+// import metadata from "../metadata.json";
 const { connected } = useWallet();
 
 const metadata = {
@@ -10,9 +11,11 @@ const metadata = {
   symbol: "kBN",
   uri: "https://raw.githubusercontent.com/687c/solana-nft-native-client/main/metadata.json",
 };
+
 // const emit = defineEmits(["minted"]);
 const mint = async () => {
   if (!connected) return;
+  console.log(metadata);
   const token = await mintToken(metadata.name, metadata.symbol, metadata.uri);
   // emit("minted", token);
   console.log(token);
