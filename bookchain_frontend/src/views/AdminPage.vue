@@ -2,6 +2,7 @@
 // import { useWorkspace } from "../scripts/workspace";
 import { useWallet } from "solana-wallets-vue";
 import { mintToken } from "../scripts/mintToken.js";
+import { mintEdition } from "@/scripts/mintEdition";
 // const { program } = useWorkspace();
 // import metadata from "../metadata.json";
 const { connected } = useWallet();
@@ -32,7 +33,7 @@ const metadata = {
     files: [
       {
         type: "application/pdf",
-        url: "https://nftstorage.link/ipfs/bafybeibctzkfnesjzu4xnacirjjhdokqaf75f5czjym34obq26quajltay",
+        url: "https://nftstorage.link/ipfs/bafkreidiqxv6dhzeul2zgkwtzuoqr32zbx3y45kdwtbhcfkrr7ehf444vq",
       },
       {
         type: "image/jpg",
@@ -49,7 +50,19 @@ const mint = async () => {
   const token = await mintToken(
     metadata.name,
     metadata.symbol,
-    "https://raw.githubusercontent.com/d-arde/bookchain/test/bookchain_frontend/src/metadata.json?token=GHSAT0AAAAAACKIX3SWKSYGYOPU2BKE7AVQZO2LS7A"
+    "https://raw.githubusercontent.com/d-arde/bookchain/test/bookchain_frontend/src/metadata.json?token=GHSAT0AAAAAACKIX3SWBO57RKR7H6BYKF6SZO2NSTQ"
+  );
+  // emit("minted", token);
+  console.log(token);
+};
+
+const mint_edition = async () => {
+  if (!connected) return;
+  console.log(metadata);
+  const token = await mintEdition(
+    metadata.name,
+    metadata.symbol,
+    "https://raw.githubusercontent.com/d-arde/bookchain/test/bookchain_frontend/src/metadata.json?token=GHSAT0AAAAAACKIX3SWBO57RKR7H6BYKF6SZO2NSTQ"
   );
   // emit("minted", token);
   console.log(token);
@@ -60,6 +73,7 @@ const mint = async () => {
   <div>
     <h1>Admin</h1>
     <button v-if="connected" @click="mint">Mint Token</button>
+    <button v-if="connected" @click="mint_edition">Mint Edition</button>
     <p v-else>Connect your wallet to test mint</p>
   </div>
 </template>

@@ -70,11 +70,92 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "initEdition",
+      "accounts": [
+        {
+          "name": "newMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionMarkPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newMintAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newMetadataUpdateAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemPrgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "edition",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
     {
-      "name": "TextBookState",
+      "name": "TextBook",
       "type": {
         "kind": "struct",
         "fields": [
@@ -97,6 +178,10 @@
           {
             "name": "priceUsd",
             "type": "u32"
+          },
+          {
+            "name": "uri",
+            "type": "string"
           }
         ]
       }
