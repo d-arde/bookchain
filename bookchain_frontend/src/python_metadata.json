@@ -1,0 +1,38 @@
+{
+  "attributes": [
+    {
+      "trait_type": "Author",
+      "value": "David Amos"
+    },
+    {
+      "trait_type": "Year",
+      "value": "2020"
+    },
+    {
+      "trait_type": "Subject",
+      "value": "Computer Science"
+    },
+    {
+      "trait_type": "Code",
+      "value": "AER281"
+    }
+  ],
+  "collection": {
+    "family": "Bookchain",
+    "name": "Bookchain"
+  },
+  "description": "Python Basics: A Practical Introduction to Python 3. A textbook minted through Bookchain!",
+  "name": "Python Basics",
+  "properties": {
+    "files": [
+      {
+        "type": "application/pdf",
+        "url": "https://nftstorage.link/ipfs/bafybeify7uglpberjnemwcvqygrashydugyquc4ox2lqqnrk63afuwfh5q"
+      },
+      {
+        "type": "image/jpg",
+        "url": "https://nftstorage.link/ipfs/bafkreib2obapni5gknwyo6c6ax2xtdjr2oa3x4za4kkrqntkmahea7n76e"
+      }
+    ]
+  }
+}
