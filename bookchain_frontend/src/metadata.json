@@ -17,6 +17,10 @@
       "value": "AV751D"
     }
   ],
+  "collection": {
+    "family": "Bookchain",
+    "name": "Bookchain"
+  },
   "description": "A textbook minted through Bookchain!",
   "name": "Electromagnetics",
   "properties": {
