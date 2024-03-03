@@ -1,11 +1,9 @@
 <template>
   <div>
-    <!-- <button @click="getUserNFT">Fetch NFTs</button> -->
     <div v-if="isFetched">
       <div v-for="(nft, index) in userNFT" :key="index">
-        <img :src="nft.logoURI" alt="NFT Image" />
-        <h1>{{ nft.name }}</h1>
-        <!-- <p>{{ nft.mint }}</p> -->
+        <img @click="getToMintPage(nft)" :src="nft.logoURI" alt="NFT Image" />
+        <h1 @click="getToMintPage(nft)">{{ nft.name }}</h1>
       </div>
     </div>
     <div v-else>Loading...</div>
@@ -16,11 +14,13 @@
 import { ref, onMounted } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const connection = new Connection(clusterApiUrl("devnet"));
     const metaplex = new Metaplex(connection);
+    const router = useRouter();
 
     const userNFT = ref(null);
     const isFetched = ref(false);
@@ -81,11 +81,15 @@ export default {
       console.log("user NFTs", userNFTMetadata);
     }
 
+    function getToMintPage(nft) {
+      router.push({ path: "/mint", query: { mint: nft.name } });
+    }
+
     onMounted(() => {
       getUserNFT();
     });
 
-    return { userNFT, isFetched, getUserNFT };
+    return { userNFT, isFetched, getUserNFT, getToMintPage };
   },
 };
 </script>

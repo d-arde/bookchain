@@ -12,6 +12,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import booksLists from "./components/booksLists.vue";
 import homePage from "./views/HomePage.vue";
 import adminPage from "./views/AdminPage.vue";
+import mintPage from "./components/mintPage.vue";
 import { initWorkspace } from "./scripts/workspace";
 
 const router = createRouter({
@@ -20,6 +21,7 @@ const router = createRouter({
     { path: "/", component: homePage },
     { path: "/admin", component: adminPage },
     { path: "/all_books", component: booksLists },
+    { path: "/mint", component: mintPage },
   ],
 });
 
