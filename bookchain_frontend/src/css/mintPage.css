@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+3");
+.font {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.container {
+  font-size: 18px;
+  max-width: 100em;
+  padding: 1em;
+  border: 2px solid ghostwhite;
+  border-radius: 0.5em;
+  background-color: rgb(45, 45, 45);
+}
+
+h1 {
+  font-size: 32px;
+  text-align: center;
+  /* max-width: 100em; */
+}
+
+.nft-details {
+  display: flex;
+  align-items: flex-start;
+}
+
+.nft-image-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.nft-info {
+  flex: 3;
+}
+
+.nft-image {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  margin-top: 1em;
+}
+
+button:hover {
+  transition: transform 0.3s ease;
+  transform: translateY(-4px);
+}

@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+3");
+.font {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.font_bolder {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: bolder;
+}
+
+.nft-container {
+  display: flex; /* Use Flexbox to lay cards horizontally */
+  flex-wrap: wrap; /* Allow cards to wrap to the next row */
+  justify-content: space-between; /* Distribute space between cards */
+}
+
+.nft-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: rgb(45, 45, 45);
+  padding: 1em;
+  margin: 0.5em;
+  width: calc(25% - 16px); /* Adjust the width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.nft-card:hover {
+  transform: translateY(-4px);
+}
+
+.nft-image {
+  max-width: 100%; /* Limit image width to fit inside the card */
+  height: auto; /* Ensure aspect ratio is maintained */
+  border-radius: 8px;
+  margin: 0 auto; /* Center the image horizontally */
+  display: block; /* Ensure the image is block-level */
+}
+
+.nft-name {
+  font-size: 20px;
+  color: ghostwhite;
+  text-align: center; /* Center the text horizontally */
+  margin-bottom: 0.2em;
+}
+
+p.nft-name {
+  font-size: 16px;
+  color: ghostwhite;
+  text-align: center; /* Center the text horizontally */
+}
+
+.loading {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #ff0000;
+}

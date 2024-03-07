@@ -1,12 +1,21 @@
 <template>
-  <div>
-    <div v-if="isFetched">
-      <div v-for="(nft, index) in userNFT" :key="index">
-        <img @click="getToMintPage(nft)" :src="nft.logoURI" alt="NFT Image" />
-        <h1 @click="getToMintPage(nft)">{{ nft.name }}</h1>
+  <div class="font">
+    <h1 style="text-align: center">Buy Textbooks</h1>
+    <div v-if="isFetched" class="nft-container">
+      <div
+        v-for="(nft, index) in userNFT"
+        :key="index"
+        class="nft-card"
+        @click="getToMintPage(nft)"
+      >
+        <img :src="nft.logoURI" alt="NFT Image" class="nft-image" />
+        <h1 class="nft-name">{{ nft.name }}</h1>
+        <p class="nft-name">Author: {{ nft.author }}</p>
+        <p class="nft-name">Year of Release: {{ nft.year }}</p>
+        <p class="nft-name">Subject: {{ nft.subject }}</p>
       </div>
     </div>
-    <div v-else>Loading...</div>
+    <div v-else class="loading font">Loading...</div>
   </div>
 </template>
 
@@ -30,7 +39,6 @@ export default {
       isFetched.value = false;
 
       const userNFTs = await metaplex.nfts().findAllByOwner({ owner: address });
-      console.log(userNFTs);
 
       const userNFTMetadata = await Promise.all(
         userNFTs.map(async (token) => {
@@ -38,12 +46,24 @@ export default {
           const mintPublickey = token.mintAddress;
           const mint = mintPublickey.toBase58();
           let name = token.name.trim();
+          let author = "";
+          let year = "";
+          let subject = "";
+          let CID = "";
+          let uri = "";
+          let uri_split = "";
           let logoURI;
 
           const NFTloaded = await metaplex
             .nfts()
             .findByMint({ mintAddress: mintPublickey });
-
+          author = NFTloaded.json.attributes[0].value;
+          year = NFTloaded.json.attributes[1].value;
+          subject = NFTloaded.json.attributes[2].value;
+          uri = NFTloaded.uri;
+          uri_split = uri.split(".");
+          uri_split = uri_split[0].split("/");
+          CID = uri_split[2];
           if (
             name == "" &&
             NFTloaded.json?.name &&
@@ -62,6 +82,10 @@ export default {
             name,
             logoURI,
             mint,
+            author,
+            year,
+            subject,
+            CID,
           };
         })
       );
@@ -78,11 +102,17 @@ export default {
 
       userNFT.value = userNFTMetadata;
       isFetched.value = true;
-      console.log("user NFTs", userNFTMetadata);
     }
 
     function getToMintPage(nft) {
-      router.push({ path: "/mint", query: { mint: nft.name } });
+      console.log("nftData:", nft);
+      const nameWithCID = `${nft.name}-${nft.CID}`; // Concatenate name and cid
+      console.log(nameWithCID);
+      router.push({
+        path: "/mint",
+        query: { mint: nameWithCID },
+        params: { nftData: nft },
+      });
     }
 
     onMounted(() => {
@@ -95,8 +125,5 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+3");
-.font {
-  font-family: "Source Sans 3", sans-serif;
-}
+@import "../css/bookList.css";
 </style>

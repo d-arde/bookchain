@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+3");
+.font {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.header {
+  font-size: 24px;
+  color: ghostwhite;
+}
+
+.intro {
+  margin-left: 1em;
+  border: 0.2em solid rgb(193, 109, 232);
+  background-color: rgb(92, 18, 183);
+  border-radius: 0.5em;
+  padding: 0.2em;
+}
+
+.upload-metadata {
+  margin-bottom: 0.66em;
+  margin-left: 0.3em;
+}
+
+label {
+  margin-right: 0.75em;
+}
+
+.grid-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  flex: 1;
+  padding-right: 10em;
+}
+
+.column:last-child {
+  margin-right: 0;
+}
+
+input[type="file"] {
+  margin-bottom: 1em;
+  margin-left: 0.25em;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.wallet-message {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #ff0000;
+}

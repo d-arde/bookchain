@@ -41,7 +41,5 @@ async function readFileAsync(filePath) {
   });
 }
 
-export { storeTextbook, fileFromSystem, NFT_STORAGE_KEY };
-
 // Advanced Modern Engineering Mathematics
 // A textbook minted by Bookchain!

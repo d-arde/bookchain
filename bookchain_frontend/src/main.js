@@ -21,7 +21,7 @@ const router = createRouter({
     { path: "/", component: homePage },
     { path: "/admin", component: adminPage },
     { path: "/all_books", component: booksLists },
-    { path: "/mint", component: mintPage },
+    { path: "/mint", name: "mint", component: mintPage },
   ],
 });
 
