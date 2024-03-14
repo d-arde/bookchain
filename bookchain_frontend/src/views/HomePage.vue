@@ -60,7 +60,7 @@
   </div>
 </template>
 
-<script></script>
+<script setup></script>
 
 <style scoped>
 @import "../css/frontPage.css";

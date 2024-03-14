@@ -16,7 +16,6 @@ import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { assert } from "chai";
 
 describe("bookchain", async () => {
   // Configured the client to use the devnet cluster.

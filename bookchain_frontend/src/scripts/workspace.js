@@ -5,7 +5,6 @@ import { PublicKey, Connection, clusterApiUrl } from "@solana/web3.js";
 const idl = require("../idl/idl.json");
 
 const programId = new PublicKey(idl.metadata.address);
-console.log("metadata.addres", programId);
 const preflightCommitment = "processed";
 const commitment = "processed";
 let workspace = null;

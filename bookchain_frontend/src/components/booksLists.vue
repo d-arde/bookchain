@@ -24,6 +24,8 @@ import { ref, onMounted } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useRouter } from "vue-router";
+// import { useWallet } from "solana-wallets-vue";
+// const { connected } = useWallet();
 
 export default {
   setup() {
@@ -127,3 +129,6 @@ export default {
 <style scoped>
 @import "../css/bookList.css";
 </style>
+
+//streamline the adminPage to be just two processes. Upload files as one ('next'
+button to upload) //and metadata and mint as the other processes

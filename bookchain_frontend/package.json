@@ -27,7 +27,8 @@
     "solana-wallets-vue": "^0.6.0",
     "stream-browserify": "^3.0.0",
     "vue": "^3.2.13",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

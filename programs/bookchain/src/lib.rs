@@ -115,29 +115,4 @@ pub struct InitMint<'info> {
 }
 
 
-#[derive(Accounts)]
-pub struct TreasuryMint<'info> {
-    pub treasury_mint: Account<'info, Mint>,
-    #[account(mut)]
-    pub payer: Signer<'info>,
-    
-}
-
-
-#[derive(Accounts)]
-pub struct InitEdition<'info> {
-    /// CHECK: we are passing the account
-    #[account(mut, signer)]
-    pub signer: AccountInfo<'info>,
-}
-
-#[account]
-pub struct TextBook {
-    pub title: String,
-    pub description: String,
-    pub author: String,
-    pub year: u32,
-    pub price_usd: u32, 
-    pub uri: String
-}
 

@@ -8,19 +8,8 @@ async function storeTextbook(imgFilePath, pdfFilePath) {
   const pdfFile = await fileFromSystem(pdfFilePath);
   const nftstorage = new NFTStorage({ token: NFT_STORAGE_KEY });
 
-  //   const meta = nftstorage.storeDirectory({
-  //     name: pdfFilePath.name,
-  //     description: description,
-  //     image: imgFile,
-  //     properties: {
-  //       file: pdfFile,
-  //     },
-  //   });
-
   const meta = nftstorage.storeDirectory([imgFile, pdfFile], "metadata.json");
 
-  //   console.log("IPFS URL for the metadata:", meta.name);
-  //   console.log("metadata.json contents:\n", meta.properties);
   console.log("cid: ", meta.cid);
   return meta;
 }
@@ -40,6 +29,3 @@ async function readFileAsync(filePath) {
     reader.readAsArrayBuffer(filePath);
   });
 }
-
-// Advanced Modern Engineering Mathematics
-// A textbook minted by Bookchain!

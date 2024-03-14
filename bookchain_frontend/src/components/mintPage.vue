@@ -16,8 +16,8 @@
         <p>Author: {{ matchedNFT.author }}</p>
         <p>Year: {{ matchedNFT.year }}</p>
         <p>Subject: {{ matchedNFT.subject }}</p>
-        <button v-if="connected" @click="mintWithQuery">Mint Token</button>
-        <p v-else>Connect your wallet to test mint</p>
+        <button v-if="connected" @click="mintWithQuery">Buy Textbook</button>
+        <p v-else>Connect your wallet to buy a textbook</p>
       </div>
     </div>
   </div>

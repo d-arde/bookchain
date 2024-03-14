@@ -14,6 +14,8 @@ import homePage from "./views/HomePage.vue";
 import adminPage from "./views/AdminPage.vue";
 import mintPage from "./components/mintPage.vue";
 import { initWorkspace } from "./scripts/workspace";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -39,7 +41,26 @@ initWorkspace();
 // };
 
 // createApp(App).use(solanaWallets, walletOptions, router).mount("#app");
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+
+app.use(router);
+app.use(Toast, {
+  position: "bottom-left",
+  timeout: 8730,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.84,
+  showCloseButtonOnHover: false,
+  hideProgressBar: true,
+  closeButton: false,
+  icon: true,
+  rtl: false,
+});
+
+app.mount("#app");
+// createApp(App).use(router, Toast).mount("#app");
 
 export default router;
 
