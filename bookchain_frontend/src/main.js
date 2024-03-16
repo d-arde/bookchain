@@ -46,14 +46,14 @@ const app = createApp(App);
 app.use(router);
 app.use(Toast, {
   position: "bottom-left",
-  timeout: 8730,
+  timeout: 6000,
   closeOnClick: true,
   pauseOnFocusLoss: true,
   pauseOnHover: true,
   draggable: true,
   draggablePercent: 0.84,
   showCloseButtonOnHover: false,
-  hideProgressBar: true,
+  hideProgressBar: false,
   closeButton: false,
   icon: true,
   rtl: false,

@@ -1,7 +1,7 @@
 import { NFTStorage, File } from "nft.storage";
 
 const NFT_STORAGE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAyODBBQUIxZjhCZjc2NzI1ODRhODZCMEY0NjRiQTIwODNmODc5ODQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwOTQ3MzczMDAyNiwibmFtZSI6ImJvb2tjaGFpbiJ9.YBBOm8C-xfOBE5qZ1l7u332cxMfznJLu2DVODGpQSiM";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAyODBBQUIxZjhCZjc2NzI1ODRhODZCMEY0NjRiQTIwODNmODc5ODQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcxMDYwOTAyMjIyMiwibmFtZSI6Im5ldyBCb29rY2hhaW4ifQ.CiNtkdzqF_0d2unBq3sZfw6X0h9oCGcMchjsnAMgI1g";
 
 async function storeTextbook(imgFilePath, pdfFilePath) {
   const imgFile = await fileFromSystem(imgFilePath);
@@ -29,3 +29,5 @@ async function readFileAsync(filePath) {
     reader.readAsArrayBuffer(filePath);
   });
 }
+
+export { storeTextbook, fileFromSystem, NFT_STORAGE_KEY };
