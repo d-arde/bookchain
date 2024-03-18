@@ -16,9 +16,21 @@
 }
 
 .searchBar {
-  padding: 10px;
+  padding: 0.6em;
   width: 90%;
-  margin-left: 2em;
+  margin-left: 4em;
+  padding-left: 4em;
+  padding-right: 4em;
+  background-color: rgb(92, 18, 183);
+  text-decoration: none;
+  align-items: center;
+  border-radius: 0.5em;
+  transition: transform 0.3s ease;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.searchBar:hover {
+  background-color: #0db06c;
 }
 
 .aboutImage {
@@ -126,12 +138,9 @@
   color: grey;
   font-weight: 400;
   font-size: 16px;
-  line-height: 1.44;
 }
 
 .footerWrapper {
-  margin-top: 2em;
-  margin-bottom: 2em;
   text-align: center;
   align-self: center;
 }

@@ -1,24 +1,35 @@
 <template>
-  <h1 class="font">Mint Token</h1>
-  <div class="container font">
-    <div v-if="matchedNFT" class="nft-details">
-      <div class="nft-image-container">
-        <img
-          v-if="matchedNFT.logoURI"
-          :src="matchedNFT.logoURI"
-          alt="NFT Image"
-          class="nft-image"
-        />
-        <p v-else>No image available</p>
+  <h1 class="font">Buy Textbook</h1>
+  <div v-if="matchedNFT">
+    <div class="container font">
+      <div class="nft-details">
+        <div class="nft-image-container">
+          <img
+            v-if="matchedNFT.logoURI"
+            :src="matchedNFT.logoURI"
+            alt="NFT Image"
+            class="nft-image"
+          />
+          <p v-else>No image available</p>
+        </div>
+        <div class="nft-info">
+          <h2>Name: {{ matchedNFT.name }}</h2>
+          <p>Author: {{ matchedNFT.author }}</p>
+          <p>Year: {{ matchedNFT.year }}</p>
+          <p>Subject: {{ matchedNFT.subject }}</p>
+          <button v-if="connected" @click="mintWithQuery">Buy Textbook</button>
+          <p v-else style="font-size: larger; color: red">
+            Connect your wallet to buy a textbook
+          </p>
+        </div>
       </div>
-      <div class="nft-info">
-        <h2>Name: {{ matchedNFT.name }}</h2>
-        <p>Author: {{ matchedNFT.author }}</p>
-        <p>Year: {{ matchedNFT.year }}</p>
-        <p>Subject: {{ matchedNFT.subject }}</p>
-        <button v-if="connected" @click="mintWithQuery">Buy Textbook</button>
-        <p v-else>Connect your wallet to buy a textbook</p>
-      </div>
+    </div>
+    <br />
+    <div class="font desc">
+      <h2>About:</h2>
+      <p>
+        {{ matchedNFT.description }}
+      </p>
     </div>
   </div>
 </template>
@@ -30,10 +41,12 @@ import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { useToast } from "vue-toastification";
 
 const { connected } = useWallet();
 const connection = new Connection(clusterApiUrl("devnet"));
 const metaplex = new Metaplex(connection);
+const toast = useToast();
 const route = useRoute();
 const matchedNFT = ref(null);
 
@@ -52,7 +65,13 @@ const mintWithQuery = async () => {
       name = words.join(" ");
     }
     console.log(name, cid);
-    await mintToken(name, "bkc", `https://${cid}.ipfs.nftstorage.link`);
+    try {
+      toast.info("Please approve transaction to buy textbook");
+      await mintToken(name, "bkc", `https://${cid}.ipfs.nftstorage.link`);
+      toast.success("Congrats! View your book on the profile tab.");
+    } catch (error) {
+      toast.error("Sorry! An error has occurred, please try again.");
+    }
   }
 };
 
@@ -79,6 +98,7 @@ async function getUserNFT() {
         let author = "";
         let year = "";
         let subject = "";
+        let description = "";
         let logoURI;
 
         const NFTloaded = await metaplex
@@ -90,6 +110,7 @@ async function getUserNFT() {
           author = NFTloaded.json.attributes[0]?.value || "";
           year = NFTloaded.json.attributes[1]?.value || "";
           subject = NFTloaded.json.attributes[2]?.value || "";
+          description = NFTloaded.json.description || "";
         }
 
         // Retrieve name from NFT if not available
@@ -110,6 +131,7 @@ async function getUserNFT() {
           author,
           year,
           subject,
+          description,
         };
       })
     );

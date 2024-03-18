@@ -1,9 +1,15 @@
 <template>
   <div class="font">
     <h1 style="text-align: center">Buy Textbooks</h1>
+    <input
+      type="text"
+      v-model="searchQuery"
+      placeholder="Search..."
+      class="search-bar"
+    />
     <div v-if="isFetched" class="nft-container">
       <div
-        v-for="(nft, index) in userNFT"
+        v-for="(nft, index) in filteredNFT"
         :key="index"
         class="nft-card"
         @click="getToMintPage(nft)"
@@ -20,7 +26,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useRouter } from "vue-router";
@@ -35,6 +41,7 @@ export default {
 
     const userNFT = ref(null);
     const isFetched = ref(false);
+    const searchQuery = ref("");
 
     async function getUserNFT() {
       const address = "DycYs87NKZtrnML9raEVW5pk3Aac6D3eQYQUu52TvPRK";
@@ -117,11 +124,30 @@ export default {
       });
     }
 
+    const filteredNFT = computed(() => {
+      if (!userNFT.value) return [];
+      const query = searchQuery.value.trim().toLowerCase();
+      return userNFT.value.filter(
+        (nft) =>
+          nft.name.toLowerCase().includes(query) ||
+          nft.author.toLowerCase().includes(query) ||
+          nft.year.toString().includes(query) ||
+          nft.subject.toLowerCase().includes(query)
+      );
+    });
+
     onMounted(() => {
       getUserNFT();
     });
 
-    return { userNFT, isFetched, getUserNFT, getToMintPage };
+    return {
+      userNFT,
+      isFetched,
+      getUserNFT,
+      getToMintPage,
+      filteredNFT,
+      searchQuery,
+    };
   },
 };
 </script>

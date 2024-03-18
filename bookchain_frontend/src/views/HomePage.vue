@@ -11,12 +11,12 @@
             online, using cryptocurrency. To help you get the fairest price
             possible.
           </p>
-          <div class="searchSection">
-            <input
-              type="text"
-              placeholder="Search for textbooks"
-              class="searchBar"
-            />
+          <div>
+            <br />
+            <!-- <button class="searchBar font">Find your textbook here</button> -->
+            <router-link :to="{ path: '/all_books' }" class="searchBar font"
+              >Find your textbook here!</router-link
+            >
           </div>
         </div>
         <div class="aboutImage">
@@ -62,6 +62,6 @@
 
 <script setup></script>
 
-<style scoped>
+<style>
 @import "../css/frontPage.css";
 </style>

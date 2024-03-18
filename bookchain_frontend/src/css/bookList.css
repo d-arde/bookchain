@@ -8,10 +8,10 @@
   font-weight: bolder;
 }
 
-.nft-container {
-  display: flex; /* Use Flexbox to lay cards horizontally */
-  flex-wrap: wrap; /* Allow cards to wrap to the next row */
-  justify-content: space-between; /* Distribute space between cards */
+/* .nft-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .nft-card {
@@ -20,10 +20,25 @@
   background-color: rgb(45, 45, 45);
   padding: 1em;
   margin: 0.5em;
-  width: calc(25% - 16px); /* Adjust the width as needed */
+  width: calc(25% - 16px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   cursor: pointer;
+} */
+
+.nft-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center items horizontally */
+}
+
+.nft-card {
+  width: 250px; /* Set a fixed width for each card */
+  margin: 10px; /* Add margin around each card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .nft-card:hover {
@@ -55,4 +70,14 @@ p.nft-name {
   margin-top: 20px;
   font-size: 16px;
   color: #ff0000;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
