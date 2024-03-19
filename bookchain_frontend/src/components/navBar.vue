@@ -13,20 +13,24 @@
       |
       <router-link to="/all_books" class="navLink">All Books</router-link>
       |
-      <router-link to="/subjects" class="navLink">Subjects</router-link>
-      |
       <router-link to="/faq" class="navLink">FAQ</router-link>
+      |
+      <router-link
+        v-if="connected.connected.value"
+        to="/profile"
+        class="navLink"
+        >Profile</router-link
+      >
     </div>
     <div><WalletMultiButton dark></WalletMultiButton></div>
   </nav>
 </template>
 
-<script>
+<script setup>
 import WalletMultiButton from "./WalletMultiButton.vue";
-export default {
-  methods: {},
-  components: { WalletMultiButton },
-};
+import { useWallet } from "solana-wallets-vue";
+
+const connected = useWallet();
 </script>
 
 <style scoped>

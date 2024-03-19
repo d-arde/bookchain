@@ -39,6 +39,8 @@
   transition: transform 0.3s ease;
   cursor: pointer;
   border-radius: 8px;
+  background-color: rgba(45, 45, 45, 0.429);
+  /* border: 2px solid #cccccc5a; */
 }
 
 .nft-card:hover {
