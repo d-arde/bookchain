@@ -253,8 +253,8 @@ const handlePdfFileChange = async (event) => {
 
 const uploadFile = async () => {
   if (!imgFile || !pdfFile) {
-    toast.warning("Please select a file to upload to NFTStorage.");
-    return;
+    toast.warning("Please select both files to upload to NFTStorage.");
+    return null;
   }
 
   try {
@@ -265,6 +265,7 @@ const uploadFile = async () => {
     formData.value.pdfName = pdfFile.name;
     formData.value.pdfUrl = result;
     formData.value.imageUrl = result;
+    currentStep.value++;
   } catch (error) {
     console.error(error);
     toast.error("Upload failed, please try again.");
@@ -356,15 +357,16 @@ const steps = ref([{ label: "Step 1" }, { label: "Step 2" }]);
 
 const nextStep = async () => {
   loading.value = true;
-  // make sure the code below is undedited to make the toast work
-  //
+  // // make sure the code below is undedited to make the toast work
+  // //
   // let fileReturn = await uploadFile();
+  // console.log("FILE RETURN: ", fileReturn);
   // if (fileReturn == null) {
-  //   return;
+  //   loading.value = false;
   // }
-  console.log(await uploadFile());
+  // loading.value = false;
+  await uploadFile();
   loading.value = false;
-  currentStep.value++;
 };
 
 const submitForm = async () => {
@@ -379,5 +381,3 @@ const submitForm = async () => {
 <style scoped>
 @import "../css/adminPage.css";
 </style>
-
-//Thermodynamics. A textbook minted by Bookchain!

@@ -128,6 +128,8 @@ async function getUserNFT() {
   isFetched.value = true;
 }
 
+// async function getPDF() {}
+
 onMounted(() => {
   isWalletConnected.value = connected.connected.value;
   if (connected) {
