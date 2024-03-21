@@ -19,6 +19,8 @@
         <p class="nft-name">Author: {{ nft.author }}</p>
         <p class="nft-name">Year of Release: {{ nft.year }}</p>
         <p class="nft-name">Subject: {{ nft.subject }}</p>
+        <p class="nft-name">Price: ${{ nft.price }}</p>
+        <br />
       </div>
     </div>
     <div v-else class="loading font">Loading...</div>
@@ -59,6 +61,7 @@ export default {
           let CID = "";
           let uri = "";
           let uri_split = "";
+          let price = "";
           let logoURI;
 
           const NFTloaded = await metaplex
@@ -67,6 +70,7 @@ export default {
           author = NFTloaded.json.attributes[0].value;
           year = NFTloaded.json.attributes[1].value;
           subject = NFTloaded.json.attributes[2].value;
+          price = NFTloaded.json.attributes[4].value;
           uri = NFTloaded.uri;
           uri_split = uri.split(".");
           uri_split = uri_split[0].split("/");
@@ -85,6 +89,7 @@ export default {
               "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
           }
 
+          console.log("NFT:", NFTloaded);
           return {
             name,
             logoURI,
@@ -93,6 +98,7 @@ export default {
             year,
             subject,
             CID,
+            price,
           };
         })
       );

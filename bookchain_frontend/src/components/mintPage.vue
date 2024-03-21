@@ -17,6 +17,7 @@
           <p>Author: {{ matchedNFT.author }}</p>
           <p>Year: {{ matchedNFT.year }}</p>
           <p>Subject: {{ matchedNFT.subject }}</p>
+          <p>Price: ${{ matchedNFT.price }}</p>
           <button v-if="connected" @click="mintWithQuery">Buy Textbook</button>
           <p v-else style="font-size: larger; color: red">
             Connect your wallet to buy a textbook
@@ -37,6 +38,7 @@
 <script setup>
 import { useWallet } from "solana-wallets-vue";
 import { mintToken } from "../scripts/mintToken.js";
+import { sendSolana } from "@/scripts/sendPayment.js";
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
@@ -66,7 +68,15 @@ const mintWithQuery = async () => {
     }
     console.log(name, cid);
     try {
-      toast.info("Please approve transaction to buy textbook");
+      toast.info("Please approve both transactions to buy textbook");
+      try {
+        await sendSolana(matchedNFT.value.price);
+      } catch (error) {
+        toast.error(
+          "An error has occured whilst sending payment! Please try again."
+        );
+        return;
+      }
       await mintToken(name, "bkc", `https://${cid}.ipfs.nftstorage.link`);
       toast.success("Congrats! View your book on the profile tab.");
     } catch (error) {
@@ -99,6 +109,7 @@ async function getUserNFT() {
         let year = "";
         let subject = "";
         let description = "";
+        let price = "";
         let logoURI;
 
         const NFTloaded = await metaplex
@@ -111,6 +122,7 @@ async function getUserNFT() {
           year = NFTloaded.json.attributes[1]?.value || "";
           subject = NFTloaded.json.attributes[2]?.value || "";
           description = NFTloaded.json.description || "";
+          price = NFTloaded.json.attributes[4]?.value || "";
         }
 
         // Retrieve name from NFT if not available
@@ -124,6 +136,8 @@ async function getUserNFT() {
             "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
         }
 
+        console.log("PRICE:", NFTloaded);
+
         return {
           name,
           logoURI,
@@ -132,6 +146,7 @@ async function getUserNFT() {
           year,
           subject,
           description,
+          price,
         };
       })
     );

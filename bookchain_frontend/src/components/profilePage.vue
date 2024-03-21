@@ -5,12 +5,20 @@
       <p>This is your profile page!</p>
     </div>
     <div v-if="isWalletConnected && isFetched">
-      <div class="nft-list">
-        <div v-for="(nft, index) in userNFT" :key="index" class="nft-item">
+      <div v-if="userNFT && userNFT.length > 0" class="nft-list">
+        <div
+          v-for="(nft, index) in userNFT"
+          :key="index"
+          class="nft-item"
+          @click="redirectToURI(nft.uri)"
+        >
           <img :src="nft.logoURI" alt="NFT Image" />
           <h3>{{ nft.name }}</h3>
           <p>{{ nft.author }}</p>
         </div>
+      </div>
+      <div v-else>
+        <p>No NFTs found in your wallet!</p>
       </div>
     </div>
     <div v-else-if="isWalletConnected && !isFetched">
@@ -28,11 +36,9 @@
 import { ref, onMounted, watch } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
-import { useWorkspace, initWorkspace } from "@/scripts/workspace.js";
 import { useWallet } from "solana-wallets-vue";
 import { useToast } from "vue-toastification";
 
-const { wallet } = useWorkspace();
 const isWalletConnected = ref(false);
 const userNFT = ref(null);
 const isFetched = ref(false);
@@ -41,27 +47,31 @@ const userAddress = ref("");
 const connection = new Connection(clusterApiUrl("devnet"));
 const metaplex = new Metaplex(connection);
 const toast = useToast();
-initWorkspace();
 
 const connected = useWallet();
 watch(
   () => connected.connected.value,
-  (newValue) => {
+  async (newValue) => {
     isWalletConnected.value = newValue;
     if (newValue) {
       getUserNFT();
     } else {
+      console.log("USERNFT: ", userNFT);
       userNFT.value = null;
       userAddress.value = ""; // Clear user NFTs when wallet is disconnected
     }
   }
 );
 
+const redirectToURI = (uri) => {
+  window.open(uri, "_blank");
+};
+
 async function getUserNFT() {
   if (!connected) {
     toast.error("Please connect your wallet!");
   }
-  const address = wallet.value.publicKey.toBase58();
+  const address = connected.publicKey.value.toBase58();
   userAddress.value = address;
   isFetched.value = false;
 
@@ -76,9 +86,7 @@ async function getUserNFT() {
       let author = "";
       let year = "";
       let subject = "";
-      let CID = "";
       let uri = "";
-      let uri_split = "";
       let logoURI;
 
       const NFTloaded = await metaplex
@@ -87,10 +95,8 @@ async function getUserNFT() {
       author = NFTloaded.json.attributes[0].value;
       year = NFTloaded.json.attributes[1].value;
       subject = NFTloaded.json.attributes[2].value;
-      uri = NFTloaded.uri;
-      uri_split = uri.split(".");
-      uri_split = uri_split[0].split("/");
-      CID = uri_split[2];
+      uri = NFTloaded.json.properties.files[0].url;
+
       if (name == "" && NFTloaded.json?.name && NFTloaded.json?.name != "") {
         name = NFTloaded.json?.name.trim();
       }
@@ -101,6 +107,10 @@ async function getUserNFT() {
           "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
       }
       console.log(NFTloaded);
+      const symbolField = NFTloaded.symbol;
+      if (symbolField !== "bkc") {
+        return null;
+      }
 
       return {
         name,
@@ -109,12 +119,22 @@ async function getUserNFT() {
         author,
         year,
         subject,
-        CID,
+        uri,
+        symbolField,
       };
     })
   );
 
-  userNFTMetadata.sort(function (a, b) {
+  const filteredNFTs = userNFTMetadata.filter((nft) => nft !== null);
+
+  if (filteredNFTs.length === 0) {
+    // Empty wallet case
+    isFetched.value = true;
+    userNFT.value = [];
+    return;
+  }
+
+  filteredNFTs.sort(function (a, b) {
     if (a.name.toUpperCase() < b.name.toUpperCase()) {
       return -1;
     }
@@ -127,8 +147,6 @@ async function getUserNFT() {
   userNFT.value = userNFTMetadata;
   isFetched.value = true;
 }
-
-// async function getPDF() {}
 
 onMounted(() => {
   isWalletConnected.value = connected.connected.value;

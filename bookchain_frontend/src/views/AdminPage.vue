@@ -154,6 +154,14 @@
               class="upload-metadata"
               readonly
             /><br />
+            <label for="price">Price (USD):</label>
+            <input
+              type="number"
+              v-model="formData.price"
+              id="price"
+              name="price"
+              class="upload-metadata"
+            />
           </form>
         </div>
         <button
@@ -231,6 +239,7 @@ const formData = ref({
   imageUrl: "",
   pdfName: "",
   imageName: "",
+  price: "",
 });
 
 let imgFile = null;
@@ -280,6 +289,7 @@ const generateMetadata = async () => {
       { trait_type: "Year", value: formData.value.year },
       { trait_type: "Subject", value: formData.value.subject },
       { trait_type: "Code", value: formData.value.code },
+      { trait_type: "Price", value: `${formData.value.price}` },
     ],
     collection: {
       family: "Bookchain",
@@ -340,7 +350,8 @@ const mint = async (metadataCID) => {
       `https://${metadataCID}.ipfs.nftstorage.link`
     );
     metadataCID = "";
-    toast.success(`${bookName} minted successfully ${token}`);
+    toast.success(`${bookName} minted successfully`);
+    console.log(token);
     router.push("/");
   } catch (error) {
     toast.error("Sorry! An error has occured. Please try again.");
