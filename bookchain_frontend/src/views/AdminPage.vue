@@ -199,8 +199,8 @@
 <script setup>
 import { useWallet } from "solana-wallets-vue";
 import { mintToken } from "../scripts/mintToken.js";
-import { NFT_STORAGE_KEY } from "../scripts/upload.mjs";
-import { storeTextbook } from "../scripts/upload.mjs";
+import { PINATA_KEY } from "../scripts/upload.js";
+import { storeTextbookPinata } from "../scripts/upload.js";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useWorkspace, initWorkspace } from "@/scripts/workspace.js";
@@ -244,6 +244,7 @@ const formData = ref({
 
 let imgFile = null;
 let pdfFile = null;
+let folderName = "";
 let bookName = "";
 const loading = ref(false);
 
@@ -258,6 +259,7 @@ const handleImgFileChange = async (event) => {
 
 const handlePdfFileChange = async (event) => {
   pdfFile = event.target.files[0];
+  folderName = event.target.files[0].name.split(".")[0];
 };
 
 const uploadFile = async () => {
@@ -267,13 +269,12 @@ const uploadFile = async () => {
   }
 
   try {
-    toast.info("Uploading... Please be patient");
-    const result = await storeTextbook(imgFile, pdfFile);
-    toast.success(`Upload successful; IPFS CID: ${result}`);
+    const result = await storeTextbookPinata(imgFile, pdfFile, folderName);
+    console.log("PRINT RESULT", result);
     formData.value.imageName = imgFile.name;
     formData.value.pdfName = pdfFile.name;
-    formData.value.pdfUrl = result;
-    formData.value.imageUrl = result;
+    formData.value.pdfUrl = result.IpfsHash;
+    formData.value.imageUrl = result.IpfsHash;
     currentStep.value++;
   } catch (error) {
     console.error(error);
@@ -297,16 +298,16 @@ const generateMetadata = async () => {
     },
     description: formData.value.description,
     name: formData.value.name,
-    image: `https://nftstorage.link/ipfs/${formData.value.imageUrl}/${formData.value.imageName}`,
+    image: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}`,
     properties: {
       files: [
         {
           type: "application/pdf",
-          url: `https://nftstorage.link/ipfs/${formData.value.pdfUrl}/${formData.value.pdfName}`,
+          url: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.pdfUrl}/${formData.value.pdfName}`,
         },
         {
           type: "image/jpg",
-          url: `https://nftstorage.link/ipfs/${formData.value.imageUrl}/${formData.value.imageName}`,
+          url: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}`,
         },
       ],
     },
@@ -316,14 +317,19 @@ const generateMetadata = async () => {
 
   try {
     toast.info("Uploading... Please be patient");
-    const response = await fetch("https://api.nft.storage/upload", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${NFT_STORAGE_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: metadataJSON,
-    });
+    const response = await fetch(
+      "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${PINATA_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: metadataJSON,
+      }
+    );
+
+    console.log("BODY", metadataJSON);
 
     if (!response.ok) {
       throw new Error("Failed to upload metadata");
@@ -332,8 +338,8 @@ const generateMetadata = async () => {
     const responseData = await response.json();
     toast.success("Metadata uploaded successfully");
     console.log("Metadata uploaded successfully:", responseData);
-    console.log("Metadata CID (need this):", responseData.value);
-    return responseData.value.cid;
+    console.log("Metadata CID (need this):", responseData.IpfsHash);
+    return responseData.IpfsHash;
   } catch (error) {
     toast.error("Error uploading metadata");
     console.error("Error uploading metadata:", error);
@@ -347,7 +353,7 @@ const mint = async (metadataCID) => {
     const token = await mintToken(
       bookName,
       "bkc",
-      `https://${metadataCID}.ipfs.nftstorage.link`
+      `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${metadataCID}`
     );
     metadataCID = "";
     toast.success(`${bookName} minted successfully`);
@@ -356,7 +362,7 @@ const mint = async (metadataCID) => {
   } catch (error) {
     toast.error("Sorry! An error has occured. Please try again.");
     await delay(2000);
-    router.push("/");
+    // router.push("/");
   }
 };
 
@@ -392,3 +398,4 @@ const submitForm = async () => {
 <style scoped>
 @import "../css/adminPage.css";
 </style>
+../scripts/upload.js../scripts/upload.js

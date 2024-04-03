@@ -54,9 +54,6 @@
     </div>
     <br />
     <hr />
-    <footer class="footerWrapper">
-      <router-link to="/admin" class="font footerSection">Admin</router-link>
-    </footer>
   </div>
 </template>
 
