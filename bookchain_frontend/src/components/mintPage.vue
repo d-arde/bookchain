@@ -77,7 +77,12 @@ const mintWithQuery = async () => {
         );
         return;
       }
-      await mintToken(name, "bkc", `https://${cid}.ipfs.nftstorage.link`);
+      await mintToken(
+        name,
+        "bkc",
+        `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${cid}`
+        // ?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj
+      );
       toast.success("Congrats! View your book on the profile tab.");
     } catch (error) {
       toast.error("Sorry! An error has occurred, please try again.");

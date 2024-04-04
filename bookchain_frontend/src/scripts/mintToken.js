@@ -69,7 +69,7 @@ export const mintToken = async (name, symbol, uri) => {
   });
 
   console.log(
-    `minted nft: https://solscan.io/address/${mint.publicKey}?cluster=devnet`
+    `minted nft: https://solscan.io/token/${mint.publicKey}?cluster=devnet`
   );
 };
 // anchorWallet.wallet.PublicKey

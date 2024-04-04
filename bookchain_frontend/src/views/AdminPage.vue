@@ -362,7 +362,7 @@ const mint = async (metadataCID) => {
   } catch (error) {
     toast.error("Sorry! An error has occured. Please try again.");
     await delay(2000);
-    // router.push("/");
+    router.push("/");
   }
 };
 

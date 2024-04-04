@@ -38,6 +38,18 @@ import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "solana-wallets-vue";
 import { useToast } from "vue-toastification";
+import { ACCESS_TOKEN } from "@/scripts/upload";
+const crypto = require("crypto");
+
+function hashToken(token) {
+  const hash = crypto.createHash("sha256"); // You can use other hash algorithms like 'md5', 'sha512', etc.
+  hash.update(token);
+  return hash.digest("hex"); // Return the hashed token as a hexadecimal string
+}
+
+const token = ACCESS_TOKEN;
+const hashedToken = hashToken(token);
+console.log("Hashed token:", hashedToken);
 
 const isWalletConnected = ref(false);
 const userNFT = ref(null);
@@ -64,7 +76,9 @@ watch(
 );
 
 const redirectToURI = (uri) => {
+  // const newURI = uri + '?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj';
   window.open(uri, "_blank");
+  // ?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj
 };
 
 async function getUserNFT() {

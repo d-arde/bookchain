@@ -73,8 +73,9 @@ export default {
           price = NFTloaded.json.attributes[4].value;
           uri = NFTloaded.uri;
           uri_split = uri.split(".");
-          uri_split = uri_split[0].split("/");
+          uri_split = uri_split[2].split("/");
           CID = uri_split[2];
+          console.log(name, "URI", uri, CID);
           if (
             name == "" &&
             NFTloaded.json?.name &&
@@ -120,7 +121,7 @@ export default {
     function getToMintPage(nft) {
       console.log("nftData:", nft);
       const nameWithCID = `${nft.name}-${nft.CID}`; // Concatenate name and cid
-      console.log(nameWithCID);
+      console.log("CID", nameWithCID);
       router.push({
         path: "/mint",
         query: { mint: nameWithCID },
