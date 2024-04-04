@@ -60,7 +60,12 @@ const mintWithQuery = async () => {
   if (!connected) return;
   const { query } = route;
   if (query && query.mint) {
-    let [name, cid] = query.mint.split("-");
+    const firstHyphenIndex = query.mint.indexOf("-");
+
+    let name = query.mint.substring(0, firstHyphenIndex);
+    const cid = query.mint.substring(firstHyphenIndex + 1);
+    console.log("NAME", name);
+    console.log("CID", cid);
     if (name.length > 30) {
       const words = name.split(" ");
       words.pop();
@@ -81,7 +86,6 @@ const mintWithQuery = async () => {
         name,
         "bkc",
         `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${cid}`
-        // ?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj
       );
       toast.success("Congrats! View your book on the profile tab.");
     } catch (error) {
@@ -140,8 +144,6 @@ async function getUserNFT() {
           logoURI =
             "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
         }
-
-        console.log("PRICE:", NFTloaded);
 
         return {
           name,

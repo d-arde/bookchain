@@ -32,6 +32,7 @@ import { ref, onMounted, computed } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useRouter } from "vue-router";
+// import { ACCESS_TOKEN } from "@/scripts/upload";
 
 export default {
   setup() {

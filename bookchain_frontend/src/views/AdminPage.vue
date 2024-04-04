@@ -200,11 +200,13 @@
 import { useWallet } from "solana-wallets-vue";
 import { mintToken } from "../scripts/mintToken.js";
 import { PINATA_KEY } from "../scripts/upload.js";
+// import { ACCESS_TOKEN } from "../scripts/upload.js";
 import { storeTextbookPinata } from "../scripts/upload.js";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useWorkspace, initWorkspace } from "@/scripts/workspace.js";
 import { useToast } from "vue-toastification";
+import { ACCESS_TOKEN } from "../scripts/upload.js";
 const { connected } = useWallet();
 const toast = useToast();
 const router = useRouter();
@@ -298,25 +300,20 @@ const generateMetadata = async () => {
     },
     description: formData.value.description,
     name: formData.value.name,
-    image: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}`,
+    image: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}${ACCESS_TOKEN}`,
     properties: {
       files: [
         {
           type: "application/pdf",
-          url: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.pdfUrl}/${formData.value.pdfName}`,
+          url: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.pdfUrl}/${formData.value.pdfName}${ACCESS_TOKEN}`,
         },
         {
           type: "image/jpg",
-          url: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}`,
+          url: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}${ACCESS_TOKEN}`,
         },
       ],
     },
   };
-
-  const pinataMetadata = JSON.stringify({
-    name: `${formData.value.name}`,
-  });
-  metadata.append("pinataMetadata", pinataMetadata);
 
   const metadataJSON = JSON.stringify(metadata, null, 2);
 
@@ -358,7 +355,7 @@ const mint = async (metadataCID) => {
     const token = await mintToken(
       bookName,
       "bkc",
-      `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${metadataCID}`
+      `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${metadataCID}${ACCESS_TOKEN}`
     );
     metadataCID = "";
     toast.success(`${bookName} minted successfully`);

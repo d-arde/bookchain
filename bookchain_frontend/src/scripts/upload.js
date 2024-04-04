@@ -4,14 +4,14 @@ const toast = useToast();
 
 // import { NFTStorage } from "nft.storage";
 
-// const NFT_STORAGE_KEY =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAyODBBQUIxZjhCZjc2NzI1ODRhODZCMEY0NjRiQTIwODNmODc5ODQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcxMDYwOTAyMjIyMiwibmFtZSI6Im5ldyBCb29rY2hhaW4ifQ.CiNtkdzqF_0d2unBq3sZfw6X0h9oCGcMchjsnAMgI1g";
+const NFT_STORAGE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAyODBBQUIxZjhCZjc2NzI1ODRhODZCMEY0NjRiQTIwODNmODc5ODQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcxMDYwOTAyMjIyMiwibmFtZSI6Im5ldyBCb29rY2hhaW4ifQ.CiNtkdzqF_0d2unBq3sZfw6X0h9oCGcMchjsnAMgI1g";
 
 const PINATA_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyMmM1MjdlNy0zYzRjLTRhMDktOWVmOC1iMTQ5ZGYxZWQ5MTIiLCJlbWFpbCI6ImZhbGx0aGVmb3gxMjNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjQ0NzY3MmUwNDE0ZTkwZWE0OTFlIiwic2NvcGVkS2V5U2VjcmV0IjoiMWRmOWM2NzI1NWUxMTk4NDVmOWVhZjFhYTE5NGE1YWY5NTc2MjQwM2EzY2UzYjJiOWQzYmE1NGE0ODkyYjAzOSIsImlhdCI6MTcxMjA1NDYxN30._uVT0NylLbrsIhbD8I6UwNiyzTQU2PAiEd2_nOpBDqA";
 
 const ACCESS_TOKEN =
-  "?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj";
+  "?pinataGatewayToken=Fqwvj59OYNoSELkLYM3U04to5YzM2R9ySsPk63nRpwHT0W6mFhSTljYXgFfXa-3h";
 
 // async function storeTextbook(imgFilePath, pdfFilePath) {
 //   const imgFile = await fileFromSystem(imgFilePath);
@@ -74,7 +74,13 @@ async function readFileAsync(filePath) {
   });
 }
 
-export { storeTextbookPinata, fileFromSystem, PINATA_KEY, ACCESS_TOKEN };
+export {
+  storeTextbookPinata,
+  fileFromSystem,
+  PINATA_KEY,
+  ACCESS_TOKEN,
+  NFT_STORAGE_KEY,
+};
 
 // uploading file to pinata IPFS?
 

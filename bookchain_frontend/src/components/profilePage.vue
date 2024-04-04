@@ -10,7 +10,7 @@
           v-for="(nft, index) in userNFT"
           :key="index"
           class="nft-item"
-          @click="redirectToURI(nft.uri)"
+          @click.prevent="openModal(nft.uri)"
         >
           <img :src="nft.logoURI" alt="NFT Image" />
           <h3>{{ nft.name }}</h3>
@@ -29,6 +29,23 @@
     <div v-else>
       <h2>Please connect your wallet!</h2>
     </div>
+
+    <!-- Modal -->
+    <div v-if="modalOpen" class="modal-container">
+      <div class="modal-background" @click="closeModal"></div>
+      <div class="modal-content">
+        <div class="wrapper"></div>
+        <iframe
+          :src="modalUri"
+          class="iframe-container"
+          id="textbook-iframe"
+          oncontextmenu="return false"
+          false
+        ></iframe>
+        <div class="embed-cover"></div>
+      </div>
+      <button class="modal-close" @click="closeModal">Close</button>
+    </div>
   </div>
 </template>
 
@@ -37,30 +54,20 @@ import { ref, onMounted, watch } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "solana-wallets-vue";
-import { useToast } from "vue-toastification";
-import { ACCESS_TOKEN } from "@/scripts/upload";
-const crypto = require("crypto");
-
-function hashToken(token) {
-  const hash = crypto.createHash("sha256"); // You can use other hash algorithms like 'md5', 'sha512', etc.
-  hash.update(token);
-  return hash.digest("hex"); // Return the hashed token as a hexadecimal string
-}
-
-const token = ACCESS_TOKEN;
-const hashedToken = hashToken(token);
-console.log("Hashed token:", hashedToken);
+// import { useToast } from "vue-toastification";
 
 const isWalletConnected = ref(false);
 const userNFT = ref(null);
 const isFetched = ref(false);
 const userAddress = ref("");
+const modalOpen = ref(false);
+const modalUri = ref("");
 
 const connection = new Connection(clusterApiUrl("devnet"));
 const metaplex = new Metaplex(connection);
-const toast = useToast();
-
+// const toast = useToast();
 const connected = useWallet();
+
 watch(
   () => connected.connected.value,
   async (newValue) => {
@@ -68,23 +75,35 @@ watch(
     if (newValue) {
       getUserNFT();
     } else {
-      console.log("USERNFT: ", userNFT);
       userNFT.value = null;
-      userAddress.value = ""; // Clear user NFTs when wallet is disconnected
+      userAddress.value = "";
     }
   }
 );
 
-const redirectToURI = (uri) => {
-  // const newURI = uri + '?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj';
-  window.open(uri, "_blank");
-  // ?pinataGatewayToken=x4DOBOvHmszo1Y2SmEXYrCI0sKemrOUBTmqyKJ5zgTI59JHSW5_0Vh1Cr7UzdLEj
+// const redirectToURI = (uri) => {
+//   window.open(uri, "_blank");
+// };
+
+const openModal = (uri) => {
+  modalUri.value = uri;
+  modalOpen.value = true;
+  scrollToTop(); // Scroll to the top when modal is opened
+};
+
+const scrollToTop = () => {
+  // Scroll to the top of the page
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
+const closeModal = () => {
+  modalOpen.value = false;
 };
 
 async function getUserNFT() {
-  if (!connected) {
-    toast.error("Please connect your wallet!");
-  }
   const address = connected.publicKey.value.toBase58();
   userAddress.value = address;
   isFetched.value = false;
@@ -93,7 +112,6 @@ async function getUserNFT() {
 
   const userNFTMetadata = await Promise.all(
     userNFTs.map(async (token) => {
-      // @ts-ignore
       const mintPublickey = token.mintAddress;
       const mint = mintPublickey.toBase58();
       let name = token.name.trim();
@@ -120,7 +138,6 @@ async function getUserNFT() {
         logoURI =
           "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
       }
-      console.log(NFTloaded);
       const symbolField = NFTloaded.symbol;
       if (symbolField !== "bkc") {
         return null;
@@ -142,7 +159,6 @@ async function getUserNFT() {
   const filteredNFTs = userNFTMetadata.filter((nft) => nft !== null);
 
   if (filteredNFTs.length === 0) {
-    // Empty wallet case
     isFetched.value = true;
     userNFT.value = [];
     return;
@@ -168,14 +184,6 @@ onMounted(() => {
     getUserNFT();
   }
 });
-
-// pinata api
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyMmM1MjdlNy0zYzRjLTRhMDktOWVmOC1iMTQ5ZGYxZWQ5MTIiLCJlbWFpbCI6ImZhbGx0aGVmb3gxMjNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjQ0NzY3MmUwNDE0ZTkwZWE0OTFlIiwic2NvcGVkS2V5U2VjcmV0IjoiMWRmOWM2NzI1NWUxMTk4NDVmOWVhZjFhYTE5NGE1YWY5NTc2MjQwM2EzY2UzYjJiOWQzYmE1NGE0ODkyYjAzOSIsImlhdCI6MTcxMjA1NDYxN30._uVT0NylLbrsIhbD8I6UwNiyzTQU2PAiEd2_nOpBDqA
-
-// pinata gateway
-// https://coral-urgent-cicada-906.mypinata.cloud
-
-// bafybeidkr4elcpwvgmw4c2hyf3jmzsgikg7zee74awftklmowvfuzg243i.ipfs.nftstorage.link/python-basics-sample-chapters.pdf
 </script>
 
 <style scoped>
@@ -231,5 +239,74 @@ onMounted(() => {
 .nft-item p {
   font-size: 14px;
   color: #666;
+}
+
+.iframe-container {
+  width: 100%; /* Adjust as needed */
+  height: 900px; /* Adjust as needed */
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 90%; /* Increase the height to 90% or adjust as needed */
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-background {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  border-radius: 5px;
+  z-index: 1;
+  overflow: auto; /* Enable scrolling */
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 3.5em;
+  width: 10em;
+  height: 3em;
+  z-index: 9999;
+}
+
+.embed-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  /* Just for demonstration, remove this part */
+  opacity: 0.25;
+}
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
 }
 </style>
