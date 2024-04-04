@@ -13,7 +13,7 @@ export const sendSolana = async (amount) => {
   var provider = await getProvider();
 
   var recieverWallet = new web3.PublicKey(
-    "CkiKLEa9eSEoG6CoTSuaahsF2WqNgArnvoCSbNZjJ7BQ"
+    "DycYs87NKZtrnML9raEVW5pk3Aac6D3eQYQUu52TvPRK"
   );
 
   var transaction = new web3.Transaction().add(
