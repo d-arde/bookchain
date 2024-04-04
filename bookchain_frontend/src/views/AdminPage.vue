@@ -313,6 +313,11 @@ const generateMetadata = async () => {
     },
   };
 
+  const pinataMetadata = JSON.stringify({
+    name: `${formData.value.name}`,
+  });
+  metadata.append("pinataMetadata", pinataMetadata);
+
   const metadataJSON = JSON.stringify(metadata, null, 2);
 
   try {
