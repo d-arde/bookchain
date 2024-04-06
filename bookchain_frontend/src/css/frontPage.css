@@ -16,17 +16,22 @@
 }
 
 .searchBar {
-  padding: 0.6em;
-  width: 90%;
+  padding: 0.6em 2em; /* Adjust padding as needed */
+  width: auto; /* Remove fixed width */
   margin-left: 4em;
-  padding-left: 4em;
-  padding-right: 4em;
   background-color: rgb(92, 18, 183);
   text-decoration: none;
-  align-items: center;
+  display: inline-block; /* Ensure inline display */
   border-radius: 0.5em;
   transition: transform 0.3s ease;
   transition: background-color 0.5s, color 0.5s;
+}
+
+/* Adjust padding for different screen sizes using media queries if needed */
+@media screen and (max-width: 768px) {
+  .searchBar {
+    padding: 0.6em 1em; /* Adjust padding for smaller screens */
+  }
 }
 
 .searchBar:hover {

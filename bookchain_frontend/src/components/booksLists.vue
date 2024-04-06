@@ -19,7 +19,10 @@
         <p class="nft-name">Author: {{ nft.author }}</p>
         <p class="nft-name">Year of Release: {{ nft.year }}</p>
         <p class="nft-name">Subject: {{ nft.subject }}</p>
-        <p class="nft-name">Price: ${{ nft.price }}</p>
+        <p class="nft-name">
+          Price: {{ convertToSol(nft.price) }} SOL
+          <span style="color: grey">(${{ nft.price }})</span>
+        </p>
         <br />
       </div>
     </div>
@@ -32,6 +35,7 @@ import { ref, onMounted, computed } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useRouter } from "vue-router";
+import { getSolanaPrice } from "../scripts/sendPayment.js";
 // import { ACCESS_TOKEN } from "@/scripts/upload";
 
 export default {
@@ -43,6 +47,7 @@ export default {
     const userNFT = ref(null);
     const isFetched = ref(false);
     const searchQuery = ref("");
+    let solPrice = ref(null);
 
     async function getUserNFT() {
       const address = "DycYs87NKZtrnML9raEVW5pk3Aac6D3eQYQUu52TvPRK";
@@ -91,7 +96,7 @@ export default {
               "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
           }
 
-          console.log("NFT:", NFTloaded);
+          // console.log("NFT:", NFTloaded);
           return {
             name,
             logoURI,
@@ -142,8 +147,19 @@ export default {
       );
     });
 
-    onMounted(() => {
+    const convertToSol = (price) => {
+      console.log("PRICE", price);
+      console.log("solPrice", solPrice);
+      return (price / solPrice.value).toFixed(2);
+    };
+
+    onMounted(async () => {
       getUserNFT();
+      try {
+        solPrice.value = await getSolanaPrice();
+      } catch (error) {
+        console.error("Error fetching Solana price:", error);
+      }
     });
 
     return {
@@ -153,6 +169,8 @@ export default {
       getToMintPage,
       filteredNFT,
       searchQuery,
+      solPrice,
+      convertToSol,
     };
   },
 };

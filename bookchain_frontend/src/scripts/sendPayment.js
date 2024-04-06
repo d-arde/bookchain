@@ -40,7 +40,7 @@ export const sendSolana = async (amount) => {
   console.log("Signature: ", signature);
 };
 
-const getSolanaPrice = async () => {
+export const getSolanaPrice = async () => {
   try {
     const apiKey = "CG-Ua5Z7n3RhqNGhxCfUshnwNVq"; // Replace 'YOUR_API_KEY' with your actual API key
 

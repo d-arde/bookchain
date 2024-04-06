@@ -42,7 +42,6 @@
           oncontextmenu="return false"
           false
         ></iframe>
-        <div class="embed-cover"></div>
       </div>
       <button class="modal-close" @click="closeModal">Close</button>
     </div>

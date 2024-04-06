@@ -14,6 +14,7 @@ import homePage from "./views/HomePage.vue";
 import adminPage from "./views/AdminPage.vue";
 import mintPage from "./components/mintPage.vue";
 import profilePage from "./components/profilePage.vue";
+import FAQPage from "./views/FAQPage.vue";
 import { initWorkspace } from "./scripts/workspace";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
@@ -25,6 +26,7 @@ const router = createRouter({
     { path: "/admin", component: adminPage },
     { path: "/all_books", component: booksLists },
     { path: "/mint", name: "mint", component: mintPage },
+    { path: "/faq", component: FAQPage },
     { path: "/profile", component: profilePage },
   ],
 });

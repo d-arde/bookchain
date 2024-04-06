@@ -17,7 +17,10 @@
           <p>Author: {{ matchedNFT.author }}</p>
           <p>Year: {{ matchedNFT.year }}</p>
           <p>Subject: {{ matchedNFT.subject }}</p>
-          <p>Price: ${{ matchedNFT.price }}</p>
+          <p>
+            Price: {{ convertToSol(matchedNFT.price) }} SOL
+            <span style="color: grey">(${{ matchedNFT.price }})</span>
+          </p>
           <button v-if="connected" @click="mintWithQuery">Buy Textbook</button>
           <p v-else style="font-size: larger; color: red">
             Connect your wallet to buy a textbook
@@ -44,6 +47,7 @@ import { onMounted, ref } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useToast } from "vue-toastification";
+import { getSolanaPrice } from "@/scripts/sendPayment.js";
 
 const { connected } = useWallet();
 const connection = new Connection(clusterApiUrl("devnet"));
@@ -51,6 +55,7 @@ const metaplex = new Metaplex(connection);
 const toast = useToast();
 const route = useRoute();
 const matchedNFT = ref(null);
+let solPrice = ref(null);
 
 if (!connected) {
   console.log("nope");
@@ -64,8 +69,6 @@ const mintWithQuery = async () => {
 
     let name = query.mint.substring(0, firstHyphenIndex);
     const cid = query.mint.substring(firstHyphenIndex + 1);
-    console.log("NAME", name);
-    console.log("CID", cid);
     if (name.length > 30) {
       const words = name.split(" ");
       words.pop();
@@ -169,8 +172,19 @@ async function getUserNFT() {
   }
 }
 
-onMounted(() => {
+const convertToSol = (price) => {
+  console.log("PRICE", price);
+  console.log("solPrice", solPrice);
+  return (price / solPrice.value).toFixed(2);
+};
+
+onMounted(async () => {
   getUserNFT();
+  try {
+    solPrice.value = await getSolanaPrice();
+  } catch (error) {
+    console.error("Error fetching Solana price:", error);
+  }
 });
 </script>
 
