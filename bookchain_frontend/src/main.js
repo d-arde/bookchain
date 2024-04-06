@@ -36,15 +36,6 @@ const wallets = [new PhantomWalletAdapter(), new SolflareWalletAdapter()];
 initWallet({ wallets, autoConnect: true });
 initWorkspace();
 
-// const walletOptions = {
-//   wallets: [
-//     new PhantomWalletAdapter(),
-//     new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
-//   ],
-//   autoConnect: false,
-// };
-
-// createApp(App).use(solanaWallets, walletOptions, router).mount("#app");
 const app = createApp(App);
 
 app.use(router);
@@ -64,14 +55,5 @@ app.use(Toast, {
 });
 
 app.mount("#app");
-// createApp(App).use(router, Toast).mount("#app");
 
 export default router;
-
-// const app = Vue.createApp({
-//   router,
-//   walletOptions,
-//   solanaWallets,
-// });
-
-// app.mount("#app");

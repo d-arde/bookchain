@@ -72,8 +72,3 @@ export const mintToken = async (name, symbol, uri) => {
     `minted nft: https://solscan.io/token/${mint.publicKey}?cluster=devnet`
   );
 };
-// anchorWallet.wallet.PublicKey
-// ^ how to get signer pub key
-
-// web3.SystemProgram.programId
-// ^ how to get system program id

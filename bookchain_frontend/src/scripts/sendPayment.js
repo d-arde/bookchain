@@ -42,9 +42,8 @@ export const sendSolana = async (amount) => {
 
 export const getSolanaPrice = async () => {
   try {
-    const apiKey = "CG-Ua5Z7n3RhqNGhxCfUshnwNVq"; // Replace 'YOUR_API_KEY' with your actual API key
+    const apiKey = "CG-Ua5Z7n3RhqNGhxCfUshnwNVq";
 
-    // Make GET request to CoinMarketCap API
     const response = await fetch(
       `https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd`,
       {
@@ -57,7 +56,7 @@ export const getSolanaPrice = async () => {
 
     if (!response.ok) {
       console.log("ERROR RESPONSE", response);
-      //   throw new Error("Failed to fetch Solana price");
+      throw new Error("Failed to fetch Solana price");
     }
 
     const responseData = await response.json();

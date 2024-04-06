@@ -13,7 +13,6 @@
           </p>
           <div>
             <br />
-            <!-- <button class="searchBar font">Find your textbook here</button> -->
             <router-link :to="{ path: '/all_books' }" class="searchBar font"
               >Find your textbook here!</router-link
             >

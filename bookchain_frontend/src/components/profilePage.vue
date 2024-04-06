@@ -53,7 +53,6 @@ import { ref, onMounted, watch } from "vue";
 import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "solana-wallets-vue";
-// import { useToast } from "vue-toastification";
 
 const isWalletConnected = ref(false);
 const userNFT = ref(null);
@@ -64,7 +63,6 @@ const modalUri = ref("");
 
 const connection = new Connection(clusterApiUrl("devnet"));
 const metaplex = new Metaplex(connection);
-// const toast = useToast();
 const connected = useWallet();
 
 watch(
@@ -80,18 +78,13 @@ watch(
   }
 );
 
-// const redirectToURI = (uri) => {
-//   window.open(uri, "_blank");
-// };
-
 const openModal = (uri) => {
   modalUri.value = uri;
   modalOpen.value = true;
-  scrollToTop(); // Scroll to the top when modal is opened
+  scrollToTop();
 };
 
 const scrollToTop = () => {
-  // Scroll to the top of the page
   window.scrollTo({
     top: 0,
     behavior: "smooth",
@@ -218,15 +211,15 @@ onMounted(() => {
 }
 
 .nft-item:hover {
-  transform: translateY(-5px); /* Move the card up by 5px when hovered */
+  transform: translateY(-5px);
 }
 
 .nft-item img {
-  max-width: 100%; /* Limit image width to fit inside the card */
-  height: auto; /* Ensure aspect ratio is maintained */
+  max-width: 100%;
+  height: auto;
   border-radius: 8px;
-  margin: 0 auto; /* Center the image horizontally */
-  display: block; /* Ensure the image is block-level */
+  margin: 0 auto;
+  display: block;
   overflow: hidden;
 }
 
@@ -241,8 +234,8 @@ onMounted(() => {
 }
 
 .iframe-container {
-  width: 100%; /* Adjust as needed */
-  height: 900px; /* Adjust as needed */
+  width: 100%;
+  height: 900px;
 }
 
 .modal-container {
@@ -251,7 +244,7 @@ onMounted(() => {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  height: 90%; /* Increase the height to 90% or adjust as needed */
+  height: 90%;
   overflow-y: auto;
   background-color: white;
   border-radius: 8px;
@@ -299,8 +292,6 @@ onMounted(() => {
   left: 0;
   bottom: 0;
   right: 0;
-
-  /* Just for demonstration, remove this part */
   opacity: 0.25;
 }
 

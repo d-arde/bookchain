@@ -211,9 +211,6 @@ const { connected } = useWallet();
 const toast = useToast();
 const router = useRouter();
 
-// toast()
-// toast.info() toast.success() toast.error()
-
 initWorkspace();
 const { wallet } = useWorkspace();
 
@@ -253,11 +250,6 @@ const loading = ref(false);
 const handleImgFileChange = async (event) => {
   imgFile = event.target.files[0];
 };
-
-// const handleMetadataCIDChange = async (event) => {
-//   metadataCID = event.target.value;
-//   console.log(metadataCID);
-// };
 
 const handlePdfFileChange = async (event) => {
   pdfFile = event.target.files[0];
@@ -376,14 +368,6 @@ const steps = ref([{ label: "Step 1" }, { label: "Step 2" }]);
 
 const nextStep = async () => {
   loading.value = true;
-  // // make sure the code below is undedited to make the toast work
-  // //
-  // let fileReturn = await uploadFile();
-  // console.log("FILE RETURN: ", fileReturn);
-  // if (fileReturn == null) {
-  //   loading.value = false;
-  // }
-  // loading.value = false;
   await uploadFile();
   loading.value = false;
 };
