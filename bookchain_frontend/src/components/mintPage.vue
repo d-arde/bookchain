@@ -19,7 +19,7 @@
           <p>Subject: {{ matchedNFT.subject }}</p>
           <p>
             Price: {{ convertToSol(matchedNFT.price) }} SOL
-            <span style="color: grey">(${{ matchedNFT.price }})</span>
+            <span style="color: grey">(~${{ matchedNFT.price }})</span>
           </p>
           <button v-if="connected" @click="mintWithQuery">Buy Textbook</button>
           <p v-else style="font-size: larger; color: red">

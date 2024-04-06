@@ -1,32 +1,75 @@
 <template>
   <div class="font">
     <h1 style="text-align: center">Buy Textbooks</h1>
-    <input
-      type="text"
-      v-model="searchQuery"
-      placeholder="Search..."
-      class="search-bar"
-    />
-    <div v-if="isFetched" class="nft-container">
-      <div
-        v-for="(nft, index) in filteredNFT"
-        :key="index"
-        class="nft-card"
-        @click="getToMintPage(nft)"
-      >
-        <img :src="nft.logoURI" alt="NFT Image" class="nft-image" />
-        <h1 class="nft-name">{{ nft.name }}</h1>
-        <p class="nft-name">Author: {{ nft.author }}</p>
-        <p class="nft-name">Year of Release: {{ nft.year }}</p>
-        <p class="nft-name">Subject: {{ nft.subject }}</p>
-        <p class="nft-name">
-          Price: {{ convertToSol(nft.price) }} SOL
-          <span style="color: grey">(${{ nft.price }})</span>
-        </p>
-        <br />
+    <div class="main-content">
+      <div class="filters">
+        <h2>Filters:</h2>
+        <div>
+          <h3 for="author">Author:</h3>
+          <div v-for="author in filters.authors" :key="author">
+            <input type="checkbox" v-model="selectedAuthors" :value="author" />
+            <label>{{ author }}</label>
+          </div>
+        </div>
+        <div>
+          <h3 for="year">Year of Release:</h3>
+          <div v-for="year in filters.years" :key="year">
+            <input type="checkbox" v-model="selectedYears" :value="year" />
+            <label>{{ year }}</label>
+          </div>
+        </div>
+        <div>
+          <h3 for="subject">Subject:</h3>
+          <div v-for="subject in filters.subjects" :key="subject">
+            <input
+              type="checkbox"
+              v-model="selectedSubjects"
+              :value="subject"
+            />
+            <label>{{ subject }}</label>
+          </div>
+        </div>
+        <div>
+          <h3>Price Range:</h3>
+          <div v-for="range in priceRanges" :key="range">
+            <input
+              type="checkbox"
+              v-model="selectedPriceRanges"
+              :value="range"
+            />
+            <label>{{ range }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="results">
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search..."
+          class="search-bar"
+        />
+        <div v-if="isFetched" class="nft-container">
+          <div
+            v-for="(nft, index) in filteredNFT"
+            :key="index"
+            class="nft-card"
+            @click="getToMintPage(nft)"
+          >
+            <img :src="nft.logoURI" alt="NFT Image" class="nft-image" />
+            <h1 class="nft-name">{{ nft.name }}</h1>
+            <p class="nft-name">Author: {{ nft.author }}</p>
+            <p class="nft-name">Year of Release: {{ nft.year }}</p>
+            <p class="nft-name">Subject: {{ nft.subject }}</p>
+            <p class="nft-name">
+              Price: {{ convertToSol(nft.price) }} SOL
+              <span style="color: grey">(~${{ nft.price }})</span>
+            </p>
+            <br />
+          </div>
+        </div>
+        <div v-else class="loading font">Loading...</div>
       </div>
     </div>
-    <div v-else class="loading font">Loading...</div>
   </div>
 </template>
 
@@ -36,7 +79,6 @@ import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useRouter } from "vue-router";
 import { getSolanaPrice } from "../scripts/sendPayment.js";
-// import { ACCESS_TOKEN } from "@/scripts/upload";
 
 export default {
   setup() {
@@ -47,7 +89,17 @@ export default {
     const userNFT = ref(null);
     const isFetched = ref(false);
     const searchQuery = ref("");
-    let solPrice = ref(null);
+    const solPrice = ref(null);
+    const filters = ref({
+      authors: [],
+      years: [],
+      subjects: [],
+    });
+    const selectedAuthors = ref([]);
+    const selectedYears = ref([]);
+    const selectedSubjects = ref([]);
+    const selectedPriceRanges = ref([]);
+    const priceRanges = ["<20$", "21-50$", "51-100$", "101-150$", "151$>"];
 
     async function getUserNFT() {
       const address = "DycYs87NKZtrnML9raEVW5pk3Aac6D3eQYQUu52TvPRK";
@@ -57,7 +109,6 @@ export default {
 
       const userNFTMetadata = await Promise.all(
         userNFTs.map(async (token) => {
-          // @ts-ignore
           const mintPublickey = token.mintAddress;
           const mint = mintPublickey.toBase58();
           let name = token.name.trim();
@@ -81,6 +132,19 @@ export default {
           uri_split = uri.split(".");
           uri_split = uri_split[2].split("/");
           CID = uri_split[2];
+
+          if (author && !filters.value.authors.includes(author)) {
+            filters.value.authors.push(author);
+          }
+
+          if (year && !filters.value.years.includes(year)) {
+            filters.value.years.push(year);
+          }
+
+          if (subject && !filters.value.subjects.includes(subject)) {
+            filters.value.subjects.push(subject);
+          }
+
           console.log(name, "URI", uri, CID);
           if (
             name == "" &&
@@ -96,7 +160,6 @@ export default {
               "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
           }
 
-          // console.log("NFT:", NFTloaded);
           return {
             name,
             logoURI,
@@ -126,7 +189,7 @@ export default {
 
     function getToMintPage(nft) {
       console.log("nftData:", nft);
-      const nameWithCID = `${nft.name}-${nft.CID}`; // Concatenate name and cid
+      const nameWithCID = `${nft.name}-${nft.CID}`;
       console.log("CID", nameWithCID);
       router.push({
         path: "/mint",
@@ -140,10 +203,33 @@ export default {
       const query = searchQuery.value.trim().toLowerCase();
       return userNFT.value.filter(
         (nft) =>
-          nft.name.toLowerCase().includes(query) ||
-          nft.author.toLowerCase().includes(query) ||
-          nft.year.toString().includes(query) ||
-          nft.subject.toLowerCase().includes(query)
+          nft.name.toLowerCase().includes(query) &&
+          (selectedAuthors.value.length === 0 ||
+            selectedAuthors.value.includes(nft.author)) &&
+          (selectedYears.value.length === 0 ||
+            selectedYears.value.includes(nft.year)) &&
+          (selectedSubjects.value.length === 0 ||
+            selectedSubjects.value.includes(nft.subject)) &&
+          (selectedPriceRanges.value.length === 0 ||
+            selectedPriceRanges.value.some((range) => {
+              if (range === "<20$") {
+                return parseFloat(nft.price) < 20;
+              } else if (range === "21-50$") {
+                return (
+                  parseFloat(nft.price) >= 21 && parseFloat(nft.price) <= 50
+                );
+              } else if (range === "51-100$") {
+                return (
+                  parseFloat(nft.price) >= 51 && parseFloat(nft.price) <= 100
+                );
+              } else if (range === "101-150$") {
+                return (
+                  parseFloat(nft.price) >= 101 && parseFloat(nft.price) <= 150
+                );
+              } else if (range === "151$>") {
+                return parseFloat(nft.price) >= 151;
+              }
+            }))
       );
     });
 
@@ -165,12 +251,17 @@ export default {
     return {
       userNFT,
       isFetched,
-      getUserNFT,
-      getToMintPage,
-      filteredNFT,
       searchQuery,
+      selectedAuthors,
+      selectedYears,
+      selectedSubjects,
+      selectedPriceRanges,
+      filters,
+      filteredNFT,
+      priceRanges,
       solPrice,
       convertToSol,
+      getToMintPage,
     };
   },
 };
@@ -179,6 +270,3 @@ export default {
 <style scoped>
 @import "../css/bookList.css";
 </style>
-
-//streamline the adminPage to be just two processes. Upload files as one ('next'
-button to upload) //and metadata and mint as the other processes

@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+3");
+@import "../css/bookList.css";
+
 .font {
   font-family: "Source Sans 3", sans-serif;
 }
@@ -8,23 +9,52 @@
   font-weight: bolder;
 }
 
-/* .nft-container {
+.main-content {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
 }
 
-.nft-card {
+.filters {
+  margin-top: 3em;
+  margin-left: 2em;
+  padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: rgb(45, 45, 45);
-  padding: 1em;
-  margin: 0.5em;
-  width: calc(25% - 16px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  cursor: pointer;
-} */
+  border-radius: 5px;
+  background-color: #2c2c2c;
+  max-width: 250px;
+  overflow-y: auto;
+}
+
+.filters h2 {
+  margin-bottom: 10px;
+  color: ghostwhite; /* Adjust text color */
+}
+
+.filters div {
+  margin-bottom: 10px;
+}
+
+.results {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+/* Add media query to adjust layout on smaller screens */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+  }
+
+  .filters {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: unset;
+  }
+
+  .results {
+    margin-left: auto; /* Move results to the right on smaller screens */
+    margin-right: auto;
+  }
+}
 
 .nft-container {
   display: flex;
@@ -40,7 +70,6 @@
   cursor: pointer;
   border-radius: 8px;
   background-color: rgba(45, 45, 45, 0.429);
-  /* border: 2px solid #cccccc5a; */
 }
 
 .nft-card:hover {
