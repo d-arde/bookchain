@@ -56,7 +56,7 @@
             @change="handlePdfFileChange"
           />
         </div>
-        <div v-if="index === 1" class="form-group">
+        <div v-if="index === 1" class="form-group form-input">
           <h2>Upload Metadata</h2>
           <form>
             <label for="name">Name: </label>
@@ -67,7 +67,7 @@
               name="name"
               class="upload-metadata"
             /><br />
-
+            <br />
             <label for="description">Description:</label><br />
             <textarea
               v-model="formData.description"
@@ -78,7 +78,7 @@
               class="upload-metadata"
             ></textarea
             ><br />
-
+            <br />
             <label for="author">Author:</label>
             <input
               type="text"
@@ -87,7 +87,7 @@
               name="author"
               class="upload-metadata"
             /><br />
-
+            <br />
             <label for="year">Year:</label>
             <input
               type="text"
@@ -96,7 +96,7 @@
               name="year"
               class="upload-metadata"
             /><br />
-
+            <br />
             <label for="subject">Subject:</label>
             <input
               type="text"
@@ -105,7 +105,7 @@
               name="subject"
               class="upload-metadata"
             /><br />
-
+            <br />
             <label for="code">Code:</label>
             <input
               type="text"
@@ -114,7 +114,7 @@
               name="code"
               class="upload-metadata"
             /><br />
-
+            <br />
             <label for="pdfUrl">PDF CID:</label>
             <input
               type="text"
@@ -122,9 +122,10 @@
               id="pdfUrl"
               name="pdfUrl"
               class="upload-metadata"
+              style="color: grey"
               readonly
             /><br />
-
+            <br />
             <label for="imageUrl">Image CID:</label>
             <input
               type="text"
@@ -132,9 +133,10 @@
               id="imageUrl"
               name="imageUrl"
               class="upload-metadata"
+              style="color: grey"
               readonly
             /><br />
-
+            <br />
             <label for="pdfName">PDF File Name:</label>
             <input
               type="text"
@@ -142,9 +144,10 @@
               id="pdfName"
               name="pdfName"
               class="upload-metadata"
+              style="color: grey"
               readonly
             /><br />
-
+            <br />
             <label for="imageName">Image File Name:</label>
             <input
               type="text"
@@ -152,8 +155,10 @@
               id="imageName"
               name="imageName"
               class="upload-metadata"
+              style="color: grey"
               readonly
             /><br />
+            <br />
             <label for="price">Price (USD):</label>
             <input
               type="number"

@@ -61,6 +61,10 @@
   padding-right: 1em;
 }
 
+.upload-metadata {
+  width: 90%;
+}
+
 label {
   margin-right: 0.75em;
 }
