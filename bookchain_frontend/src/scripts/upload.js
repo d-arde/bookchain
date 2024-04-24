@@ -11,22 +11,31 @@ const ACCESS_TOKEN =
 async function storeTextbookPinata(imgFilePath, pdfFilePath, folderName) {
   try {
     toast.info("Uploading... Please be patient");
+    // folder is needed for directory name on Pinatat
     const folder = folderName;
+    // assigns these variables to the files the user uploads
     const imgFile = await fileFromSystem(imgFilePath);
     const pdfFile = await fileFromSystem(pdfFilePath);
 
+    // these are then put in a formData object
+    // (needed by the API)
     const files = [imgFile, pdfFile];
     const data = new FormData();
 
+    // for each file in 'files', it is added to the formData object
+    // alongside the 'folder/filename' as the name
     Array.from(files).forEach((file) => {
       data.append("file", file, `${folder}/${file.name}`);
     });
 
+    // this is needed to specify it is a directory
     const pinataMetadata = JSON.stringify({
       name: `${folder}`,
     });
+    // appended to the formData Object
     data.append("pinataMetadata", pinataMetadata);
 
+    // api call to pinata
     const res = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
       method: "POST",
       headers: {
@@ -42,6 +51,7 @@ async function storeTextbookPinata(imgFilePath, pdfFilePath, folderName) {
   }
 }
 
+// takes the file uploaded by the user and transforms it into a 'File' type
 async function fileFromSystem(filePath) {
   const content = await readFileAsync(filePath);
   const type = filePath.type;
@@ -49,6 +59,7 @@ async function fileFromSystem(filePath) {
   return new File([content], filePath.name, { type });
 }
 
+// reads file uploaded by user
 async function readFileAsync(filePath) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

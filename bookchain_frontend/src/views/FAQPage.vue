@@ -7,7 +7,7 @@
         {{ faq.question }}
         <span>&#9660;</span>
       </div>
-      <div class="answer" :class="{ show: faq.show }">{{ faq.answer }}</div>
+      <div class="answer" :class="{ show: faq.show }" v-html="faq.answer"></div>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
         {
           question: "What wallet do you recommend to use?",
           answer:
-            "Phantom is the one we recommend, as they have been around since the existence of Solana and are trusted.",
+            "We recommend using <a href='https://phantom.app/'>Phantom</a>, as they have been around since the existence of Solana and are trusted.",
           show: false,
         },
       ],

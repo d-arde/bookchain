@@ -219,6 +219,8 @@ const router = useRouter();
 initWorkspace();
 const { wallet } = useWorkspace();
 
+// this checks to see if the admin walelt is connected
+// if it is, allows access to the page
 const isAdminConnected = computed(() => {
   if (
     wallet.value.publicKey.toBase58() ===
@@ -261,12 +263,14 @@ const handlePdfFileChange = async (event) => {
   folderName = event.target.files[0].name.split(".")[0];
 };
 
+// if either file is missing, will come up with an error and not progress
 const uploadFile = async () => {
   if (!imgFile || !pdfFile) {
-    toast.warning("Please select both files to upload to NFTStorage.");
+    toast.warning("Please select both files to upload.");
     return null;
   }
 
+  // stores files and adds the imgName, pdfName and CID to the next form - to ensure no mistakes are made by the publisher
   try {
     const result = await storeTextbookPinata(imgFile, pdfFile, folderName);
     console.log("PRINT RESULT", result);
@@ -274,7 +278,7 @@ const uploadFile = async () => {
     formData.value.pdfName = pdfFile.name;
     formData.value.pdfUrl = result.IpfsHash;
     formData.value.imageUrl = result.IpfsHash;
-    currentStep.value++;
+    currentStep.value++; // moves to the next form (metadata upload)
   } catch (error) {
     console.error(error);
     toast.error("Upload failed, please try again.");
@@ -282,6 +286,7 @@ const uploadFile = async () => {
   }
 };
 
+// this generates, uploads metadata to Pinata
 const generateMetadata = async () => {
   const metadata = {
     attributes: [
@@ -297,7 +302,7 @@ const generateMetadata = async () => {
     },
     description: formData.value.description,
     name: formData.value.name,
-    image: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}${ACCESS_TOKEN}`,
+    image: `https://coral-urgent-cicada-906.mypinata.cloud/ipfs/${formData.value.imageUrl}/${formData.value.imageName}${ACCESS_TOKEN}`, // access_token is needed so that the application has access to the metadata and img etc. this will change in next iterations on Bookchain
     properties: {
       files: [
         {
@@ -314,6 +319,7 @@ const generateMetadata = async () => {
 
   const metadataJSON = JSON.stringify(metadata, null, 2);
 
+  // uploads JSON to pinata using API
   try {
     toast.info("Uploading... Please be patient");
     const response = await fetch(
@@ -345,6 +351,7 @@ const generateMetadata = async () => {
   }
 };
 
+// this is the mint function, uses the name from the form. and CID as a parameter
 const mint = async (metadataCID) => {
   bookName = formData.value.name;
   toast.info(`Minting ${bookName}`);
@@ -357,7 +364,7 @@ const mint = async (metadataCID) => {
     metadataCID = "";
     toast.success(`${bookName} minted successfully`);
     console.log(token);
-    router.push("/");
+    router.push("/"); // user gets redirected to landing page when completed, irrespective of result (uploaded or not)
   } catch (error) {
     toast.error("Sorry! An error has occured. Please try again.");
     await delay(2000);
@@ -371,14 +378,16 @@ function delay(ms) {
 
 const steps = ref([{ label: "Step 1" }, { label: "Step 2" }]);
 
+// when going to the next form, uploadFile() is performed
 const nextStep = async () => {
   loading.value = true;
   await uploadFile();
   loading.value = false;
 };
 
+// when final form is submitted, these two functions are ran
+// mint functions uses return value from generateMetadata()
 const submitForm = async () => {
-  // add a check to make sure that all of the fields are populating. Otherwise, it will upload an empty metadata file
   loading.value = true;
   const metadataGen = await generateMetadata();
   await mint(metadataGen);

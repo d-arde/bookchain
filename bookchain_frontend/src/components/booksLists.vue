@@ -101,13 +101,15 @@ export default {
     const selectedPriceRanges = ref([]);
     const priceRanges = ["<20$", "21-50$", "51-100$", "101-150$", "151$>"];
 
+    // function creates an array of all data from NFTs from the address specified
     async function getUserNFT() {
+      // address of 'admin wallet'
       const address = "DycYs87NKZtrnML9raEVW5pk3Aac6D3eQYQUu52TvPRK";
       isFetched.value = false;
-
+      //function to get all NFTs from address
       const userNFTs = await metaplex.nfts().findAllByOwner({ owner: address });
-
       const userNFTMetadata = await Promise.all(
+        // for each NFT in userNFT, map and assign these variables
         userNFTs.map(async (token) => {
           const mintPublickey = token.mintAddress;
           const mint = mintPublickey.toBase58();
@@ -121,9 +123,11 @@ export default {
           let price = "";
           let logoURI;
 
+          // this gets data of a specific NFT using the mint address - allowing for assigning the different traits
           const NFTloaded = await metaplex
             .nfts()
             .findByMint({ mintAddress: mintPublickey });
+          // all fields for main page are specified here
           author = NFTloaded.json.attributes[0].value;
           year = NFTloaded.json.attributes[1].value;
           subject = NFTloaded.json.attributes[2].value;
@@ -145,7 +149,7 @@ export default {
             filters.value.subjects.push(subject);
           }
 
-          console.log(name, "URI", uri, CID);
+          // this is some error handling, so if fields are empty - there are placeholders
           if (
             name == "" &&
             NFTloaded.json?.name &&
@@ -173,6 +177,7 @@ export default {
         })
       );
 
+      // sorts all the nfts
       userNFTMetadata.sort(function (a, b) {
         if (a.name.toUpperCase() < b.name.toUpperCase()) {
           return -1;
@@ -186,7 +191,7 @@ export default {
       userNFT.value = userNFTMetadata;
       isFetched.value = true;
     }
-
+    // this function redirects the user to the correct textbook page, with the correct data of the textbook they clicked on
     function getToMintPage(nft) {
       console.log("nftData:", nft);
       const nameWithCID = `${nft.name}-${nft.CID}`;
@@ -198,6 +203,7 @@ export default {
       });
     }
 
+    // this function is for the filtering system
     const filteredNFT = computed(() => {
       if (!userNFT.value) return [];
       const query = searchQuery.value.trim().toLowerCase();
@@ -233,12 +239,12 @@ export default {
       );
     });
 
+    // converts USD to SOL price (for the price attribute on the nft card)
     const convertToSol = (price) => {
-      console.log("PRICE", price);
-      console.log("solPrice", solPrice);
       return (price / solPrice.value).toFixed(2);
     };
 
+    // performs these actions when page first opens
     onMounted(async () => {
       getUserNFT();
       try {

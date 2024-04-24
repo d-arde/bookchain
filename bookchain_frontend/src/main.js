@@ -2,10 +2,7 @@
 
 import { createApp } from "vue";
 import App from "./App.vue";
-import {
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import "solana-wallets-vue/styles.css";
 import { initWallet } from "solana-wallets-vue";
 import { createRouter, createWebHistory } from "vue-router";
@@ -31,7 +28,7 @@ const router = createRouter({
   ],
 });
 
-const wallets = [new PhantomWalletAdapter(), new SolflareWalletAdapter()];
+const wallets = [new PhantomWalletAdapter()];
 
 initWallet({ wallets, autoConnect: true });
 initWorkspace();

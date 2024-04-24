@@ -30,6 +30,7 @@
 import WalletMultiButton from "./WalletMultiButton.vue";
 import { useWallet } from "solana-wallets-vue";
 
+// connected variable is needed from useWallet() to check if user is connected to the site
 const connected = useWallet();
 </script>
 

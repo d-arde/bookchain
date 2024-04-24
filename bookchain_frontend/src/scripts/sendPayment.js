@@ -8,6 +8,9 @@ export const sendSolana = async (amount) => {
   const connection = new Connection("https://api.devnet.solana.com"); // Use appropriate network
   const solPrice = await getSolanaPrice();
   let amountSOL = amount / solPrice;
+  // lamports are the smallest amount of SOL possible
+  // this is waht is used in transactions, for fees etc
+  // so needed to be defined like this
   let lamportSOL = Math.round(amountSOL * 1000000000);
 
   var provider = await getProvider();
@@ -44,6 +47,7 @@ export const getSolanaPrice = async () => {
   try {
     const apiKey = "CG-Ua5Z7n3RhqNGhxCfUshnwNVq";
 
+    // gets SOL price in USD
     const response = await fetch(
       `https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd`,
       {
@@ -71,6 +75,7 @@ export const getSolanaPrice = async () => {
   }
 };
 
+// checks if user has Phantom installed, if not. prompts then to install
 const getProvider = async () => {
   if ("solana" in window) {
     const provider = window.solana;

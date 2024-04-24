@@ -61,14 +61,22 @@ if (!connected) {
   console.log("nope");
 }
 
+// this function gets the important fields for the URL
+// and uses them to provide the mintToken the fields it needs to mint
+// essentially a helper function for 'mintToken'
 const mintWithQuery = async () => {
   if (!connected) return;
   const { query } = route;
   if (query && query.mint) {
+    // name and CID are retreived from URL here
     const firstHyphenIndex = query.mint.indexOf("-");
 
     let name = query.mint.substring(0, firstHyphenIndex);
     const cid = query.mint.substring(firstHyphenIndex + 1);
+    // if name is longer than 30 characters
+    // gets rid of last word
+    // smart contract (SC) has a memory limit, so this needs to be done
+    // otherwise the SC will fail
     if (name.length > 30) {
       const words = name.split(" ");
       words.pop();
@@ -76,6 +84,7 @@ const mintWithQuery = async () => {
     }
     console.log(name, cid);
     try {
+      // sending Solana to admin wallet in this transaction
       toast.info("Please approve both transactions to buy textbook");
       try {
         await sendSolana(matchedNFT.value.price);
@@ -85,6 +94,8 @@ const mintWithQuery = async () => {
         );
         return;
       }
+      // minting token in this transaction
+      // uses both 'name' and 'cid' variables
       await mintToken(
         name,
         "bkc",
@@ -99,6 +110,9 @@ const mintWithQuery = async () => {
 
 console.log(mintWithQuery);
 
+// this is needed to get the metadata from the token that the user clicks on to buy
+// could be improved
+// similar to one on bookLists.vue but no filtering code
 async function getUserNFT() {
   const address = "DycYs87NKZtrnML9raEVW5pk3Aac6D3eQYQUu52TvPRK";
 
@@ -172,12 +186,12 @@ async function getUserNFT() {
   }
 }
 
+// function again needed for working out the SOL price of book from USD
 const convertToSol = (price) => {
-  console.log("PRICE", price);
-  console.log("solPrice", solPrice);
   return (price / solPrice.value).toFixed(2);
 };
 
+// these actions are performed when the page is mounted
 onMounted(async () => {
   getUserNFT();
   try {

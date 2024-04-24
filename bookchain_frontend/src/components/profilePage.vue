@@ -30,7 +30,7 @@
       <h2>Please connect your wallet!</h2>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal for opening textbook -->
     <div v-if="modalOpen" class="modal-container">
       <div class="modal-background" @click="closeModal"></div>
       <div class="modal-content">
@@ -65,6 +65,7 @@ const connection = new Connection(clusterApiUrl("devnet"));
 const metaplex = new Metaplex(connection);
 const connected = useWallet();
 
+// checks for when wallet disconnects whilst on profile page
 watch(
   () => connected.connected.value,
   async (newValue) => {
@@ -78,23 +79,18 @@ watch(
   }
 );
 
+// opens modal for textbook
 const openModal = (uri) => {
   modalUri.value = uri;
   modalOpen.value = true;
-  scrollToTop();
-};
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
 };
 
 const closeModal = () => {
   modalOpen.value = false;
 };
 
+// this function in this case is used for getting all NFTs from the user's address
+// similar to whats done on the bookLists.vue page. but for different a different purpose
 async function getUserNFT() {
   const address = connected.publicKey.value.toBase58();
   userAddress.value = address;
@@ -148,28 +144,11 @@ async function getUserNFT() {
     })
   );
 
-  const filteredNFTs = userNFTMetadata.filter((nft) => nft !== null);
-
-  if (filteredNFTs.length === 0) {
-    isFetched.value = true;
-    userNFT.value = [];
-    return;
-  }
-
-  filteredNFTs.sort(function (a, b) {
-    if (a.name.toUpperCase() < b.name.toUpperCase()) {
-      return -1;
-    }
-    if (a.name.toUpperCase() > b.name.toUpperCase()) {
-      return 1;
-    }
-    return 0;
-  });
-
   userNFT.value = userNFTMetadata;
   isFetched.value = true;
 }
 
+// this gets the users NFTs IF they are connected to the page
 onMounted(() => {
   isWalletConnected.value = connected.connected.value;
   if (connected) {
@@ -274,7 +253,7 @@ onMounted(() => {
   background-color: #fff;
   border-radius: 5px;
   z-index: 1;
-  overflow: auto; /* Enable scrolling */
+  overflow: auto;
 }
 
 .modal-close {

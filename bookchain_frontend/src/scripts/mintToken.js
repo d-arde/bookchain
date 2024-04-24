@@ -52,6 +52,7 @@ export const mintToken = async (name, symbol, uri) => {
 
   console.log("master editon, ", masterEditionAccount);
 
+  // calls smart contract from smart contract using IDL
   await program.value.rpc.initMint(name, symbol, uri, {
     accounts: {
       signer: wallet.value.publicKey,
