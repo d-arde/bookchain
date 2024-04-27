@@ -1,24 +1,19 @@
 # bookchain_frontend
 
+# this setup is only for macbook
+
+# download Anchor and the Solana client
+
+# following this: [text](https://www.anchor-lang.com/docs/installation)
+
 ## Project setup
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Compiles and runs
 
-### Compiles and minifies for production
 ```
-npm run build
+npm run
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
