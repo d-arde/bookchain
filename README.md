@@ -4,7 +4,7 @@
 
 # download Anchor and the Solana client
 
-# following this: [text](https://www.anchor-lang.com/docs/installation)
+# following this: [Anchor+Solana download](https://www.anchor-lang.com/docs/installation)
 
 ## Project setup
 
